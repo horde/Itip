@@ -9,7 +9,6 @@
  * @subpackage UnitTests
  * @author     Gunnar Wrobel <wrobel@pardus.de>
  * @license    http://www.horde.org/licenses/lgpl21 LGPL 2.1
- * @link       http://pear.horde.org/index.php?package=Itip
  */
 
 /**
@@ -26,7 +25,6 @@
  * @subpackage UnitTests
  * @author     Gunnar Wrobel <wrobel@pardus.de>
  * @license    http://www.horde.org/licenses/lgpl21 LGPL 2.1
- * @link       http://pear.horde.org/index.php?package=Itip
  */
 class Horde_Itip_Integration_ItipTest
 extends PHPUnit_Framework_TestCase

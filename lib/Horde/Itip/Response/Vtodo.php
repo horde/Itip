@@ -12,7 +12,6 @@
  * @author   Gunnar Wrobel <wrobel@pardus.de>
  * @author   Michael J Rubinsky <mrubinsk@horde.org>
  * @license  http://www.horde.org/licenses/lgpl21 LGPL
- * @link     http://pear.horde.org/index.php?package=Itip
  */
 
 /**
@@ -33,7 +32,6 @@
  * @author   Gunnar Wrobel <wrobel@pardus.de>
  * @author   Michael J Rubinsky <mrubinsk@horde.org>
  * @license  http://www.horde.org/licenses/lgpl21 LGPL
- * @link     http://pear.horde.org/index.php?package=Itip
  *
  * @todo For H6, look at protected/private visibility of parent class' methods
  *       and properties. Needed to provide duplicated methods, like __construct

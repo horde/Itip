@@ -11,7 +11,6 @@
  * @author   Steffen Hansen <steffen@klaralvdalens-datakonsult.se>
  * @author   Gunnar Wrobel <wrobel@pardus.de>
  * @license  http://www.horde.org/licenses/lgpl21 LGPL
- * @link     http://pear.horde.org/index.php?package=Itip
  */
 
 /**
@@ -31,7 +30,6 @@
  * @author   Steffen Hansen <steffen@klaralvdalens-datakonsult.se>
  * @author   Gunnar Wrobel <wrobel@pardus.de>
  * @license  http://www.horde.org/licenses/lgpl21 LGPL
- * @link     http://pear.horde.org/index.php?package=Itip
  */
 class Horde_Itip_Response
 {

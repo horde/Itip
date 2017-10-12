@@ -9,7 +9,6 @@
  * @subpackage UnitTests
  * @author     Gunnar Wrobel <wrobel@pardus.de>
  * @license    http://www.horde.org/licenses/lgpl21 LGPL 2.1
- * @link       http://pear.horde.org/index.php?package=Imp
  */
 
 /**
@@ -25,7 +24,6 @@
  * @subpackage UnitTests
  * @author     Gunnar Wrobel <wrobel@pardus.de>
  * @license    http://www.horde.org/licenses/gpl GPL
- * @link       http://pear.horde.org/index.php?package=Imp
  */
 class Horde_Itip_Stub_Identity
 {
