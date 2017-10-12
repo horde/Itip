@@ -8,7 +8,6 @@
  * @package  Itip
  * @author   Gunnar Wrobel <wrobel@pardus.de>
  * @license  http://www.horde.org/licenses/lgpl21 LGPL
- * @link     http://pear.horde.org/index.php?package=Itip
  */
 
 /**
@@ -24,7 +23,6 @@
  * @package  Itip
  * @author   Gunnar Wrobel <wrobel@pardus.de>
  * @license  http://www.horde.org/licenses/lgpl21 LGPL
- * @link     http://pear.horde.org/index.php?package=Itip
  */
 interface Horde_Itip_Response_Options
 {

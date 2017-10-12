@@ -9,7 +9,6 @@
  * @author   Gunnar Wrobel <wrobel@pardus.de>
  * @author   Michael J Rubinsky <mrubinsk@horde.org>
  * @license  http://www.horde.org/licenses/lgpl21 LGPL
- * @link     http://pear.horde.org/index.php?package=Itip
  */
 
 /**
@@ -27,7 +26,6 @@
  * @author   Gunnar Wrobel <wrobel@pardus.de>
  * @author   Michael J Rubinsky <mrubinsk@horde.org>
  * @license  http://www.horde.org/licenses/lgpl21 LGPL
- * @link     http://pear.horde.org/index.php?package=Itip
  *
  * @todo Clean this class up. Accessing private methods for copying the object
  * is not nice. Reconsider if an interface is really needed. See also PMD
