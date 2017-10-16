@@ -16,7 +16,7 @@
   <email>jan@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2016-03-21</date>
+ <date>2017-10-17</date>
  <version>
   <release>2.1.3</release>
   <api>1.1.0</api>
@@ -31,13 +31,6 @@
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
-   <dir name="doc">
-    <dir name="Horde">
-     <dir name="Itip">
-      <file name="COPYING" role="doc" />
-     </dir> <!-- /doc/Horde/Itip -->
-    </dir> <!-- /doc/Horde -->
-   </dir> <!-- /doc -->
    <dir name="lib">
     <dir name="Horde">
      <dir name="Itip">
@@ -357,6 +350,7 @@
      </dir> <!-- /test/Horde/Itip -->
     </dir> <!-- /test/Horde -->
    </dir> <!-- /test -->
+   <file name="LICENSE" role="doc" />
   </dir> <!-- / -->
  </contents>
  <dependencies>
@@ -410,28 +404,27 @@
  </dependencies>
  <phprelease>
   <filelist>
-   <install as="COPYING" name="doc/Horde/Itip/COPYING" />
    <install as="Horde/Itip.php" name="lib/Horde/Itip.php" />
    <install as="Horde/Itip/Event.php" name="lib/Horde/Itip/Event.php" />
-   <install as="Horde/Itip/Exception.php" name="lib/Horde/Itip/Exception.php" />
-   <install as="Horde/Itip/Resource.php" name="lib/Horde/Itip/Resource.php" />
-   <install as="Horde/Itip/Response.php" name="lib/Horde/Itip/Response.php" />
-   <install as="Horde/Itip/Translation.php" name="lib/Horde/Itip/Translation.php" />
    <install as="Horde/Itip/Event/Vevent.php" name="lib/Horde/Itip/Event/Vevent.php" />
    <install as="Horde/Itip/Event/Vtodo.php" name="lib/Horde/Itip/Event/Vtodo.php" />
+   <install as="Horde/Itip/Exception.php" name="lib/Horde/Itip/Exception.php" />
+   <install as="Horde/Itip/Resource.php" name="lib/Horde/Itip/Resource.php" />
    <install as="Horde/Itip/Resource/Base.php" name="lib/Horde/Itip/Resource/Base.php" />
    <install as="Horde/Itip/Resource/Identity.php" name="lib/Horde/Itip/Resource/Identity.php" />
+   <install as="Horde/Itip/Response.php" name="lib/Horde/Itip/Response.php" />
    <install as="Horde/Itip/Response/Options.php" name="lib/Horde/Itip/Response/Options.php" />
-   <install as="Horde/Itip/Response/Type.php" name="lib/Horde/Itip/Response/Type.php" />
-   <install as="Horde/Itip/Response/Vtodo.php" name="lib/Horde/Itip/Response/Vtodo.php" />
    <install as="Horde/Itip/Response/Options/Base.php" name="lib/Horde/Itip/Response/Options/Base.php" />
    <install as="Horde/Itip/Response/Options/Horde.php" name="lib/Horde/Itip/Response/Options/Horde.php" />
    <install as="Horde/Itip/Response/Options/Kolab.php" name="lib/Horde/Itip/Response/Options/Kolab.php" />
+   <install as="Horde/Itip/Response/Type.php" name="lib/Horde/Itip/Response/Type.php" />
    <install as="Horde/Itip/Response/Type/Accept.php" name="lib/Horde/Itip/Response/Type/Accept.php" />
    <install as="Horde/Itip/Response/Type/Base.php" name="lib/Horde/Itip/Response/Type/Base.php" />
    <install as="Horde/Itip/Response/Type/Decline.php" name="lib/Horde/Itip/Response/Type/Decline.php" />
    <install as="Horde/Itip/Response/Type/Tentative.php" name="lib/Horde/Itip/Response/Type/Tentative.php" />
-   <install as="locale/Horde_Itip.pot" name="locale/Horde_Itip.pot" />
+   <install as="Horde/Itip/Response/Vtodo.php" name="lib/Horde/Itip/Response/Vtodo.php" />
+   <install as="Horde/Itip/Translation.php" name="lib/Horde/Itip/Translation.php" />
+   <install as="LICENSE" name="LICENSE" />
    <install as="locale/ar/LC_MESSAGES/Horde_Itip.mo" name="locale/ar/LC_MESSAGES/Horde_Itip.mo" />
    <install as="locale/ar/LC_MESSAGES/Horde_Itip.po" name="locale/ar/LC_MESSAGES/Horde_Itip.po" />
    <install as="locale/bg/LC_MESSAGES/Horde_Itip.mo" name="locale/bg/LC_MESSAGES/Horde_Itip.mo" />
@@ -464,6 +457,7 @@
    <install as="locale/gl/LC_MESSAGES/Horde_Itip.po" name="locale/gl/LC_MESSAGES/Horde_Itip.po" />
    <install as="locale/he/LC_MESSAGES/Horde_Itip.mo" name="locale/he/LC_MESSAGES/Horde_Itip.mo" />
    <install as="locale/he/LC_MESSAGES/Horde_Itip.po" name="locale/he/LC_MESSAGES/Horde_Itip.po" />
+   <install as="locale/Horde_Itip.pot" name="locale/Horde_Itip.pot" />
    <install as="locale/hr/LC_MESSAGES/Horde_Itip.mo" name="locale/hr/LC_MESSAGES/Horde_Itip.mo" />
    <install as="locale/hr/LC_MESSAGES/Horde_Itip.po" name="locale/hr/LC_MESSAGES/Horde_Itip.po" />
    <install as="locale/hu/LC_MESSAGES/Horde_Itip.mo" name="locale/hu/LC_MESSAGES/Horde_Itip.mo" />
@@ -519,12 +513,12 @@
    <install as="Horde/Itip/AllTests.php" name="test/Horde/Itip/AllTests.php" />
    <install as="Horde/Itip/Autoload.php" name="test/Horde/Itip/Autoload.php" />
    <install as="Horde/Itip/bootstrap.php" name="test/Horde/Itip/bootstrap.php" />
-   <install as="Horde/Itip/phpunit.xml" name="test/Horde/Itip/phpunit.xml" />
    <install as="Horde/Itip/Integration/ItipTest.php" name="test/Horde/Itip/Integration/ItipTest.php" />
+   <install as="Horde/Itip/phpunit.xml" name="test/Horde/Itip/phpunit.xml" />
    <install as="Horde/Itip/Stub/Identity.php" name="test/Horde/Itip/Stub/Identity.php" />
    <install as="Horde/Itip/Unit/Event/VeventTest.php" name="test/Horde/Itip/Unit/Event/VeventTest.php" />
    <install as="Horde/Itip/Unit/Response/Type/BaseTest.php" name="test/Horde/Itip/Unit/Response/Type/BaseTest.php" />
-   </filelist>
+  </filelist>
  </phprelease>
  <changelog>
   <release>
@@ -845,7 +839,7 @@
    <stability>
     <release>stable</release>
     <api>stable</api></stability>
-   <date>2016-03-21</date>
+   <date>2017-10-17</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
 * 
