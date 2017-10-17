@@ -15,7 +15,7 @@
  *
  * Copyright 2010 Kolab Systems AG
  *
- * See the enclosed file COPYING for license information (LGPL). If you did not
+ * See the enclosed file LICENSE for license information (LGPL). If you did not
  * receive this file, see
  * {@link http://www.horde.org/licenses/lgpl21 LGPL}.
  *
