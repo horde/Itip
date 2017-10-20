@@ -16,7 +16,7 @@
   <email>jan@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2017-10-17</date>
+ <date>2017-10-20</date>
  <version>
   <release>2.1.3</release>
   <api>1.1.0</api>
@@ -346,7 +346,6 @@
       <file name="AllTests.php" role="test" />
       <file name="Autoload.php" role="test" />
       <file name="bootstrap.php" role="test" />
-      <file name="phpunit.xml" role="test" />
      </dir> <!-- /test/Horde/Itip -->
     </dir> <!-- /test/Horde -->
    </dir> <!-- /test -->
@@ -514,7 +513,6 @@
    <install as="Horde/Itip/Autoload.php" name="test/Horde/Itip/Autoload.php" />
    <install as="Horde/Itip/bootstrap.php" name="test/Horde/Itip/bootstrap.php" />
    <install as="Horde/Itip/Integration/ItipTest.php" name="test/Horde/Itip/Integration/ItipTest.php" />
-   <install as="Horde/Itip/phpunit.xml" name="test/Horde/Itip/phpunit.xml" />
    <install as="Horde/Itip/Stub/Identity.php" name="test/Horde/Itip/Stub/Identity.php" />
    <install as="Horde/Itip/Unit/Event/VeventTest.php" name="test/Horde/Itip/Unit/Event/VeventTest.php" />
    <install as="Horde/Itip/Unit/Response/Type/BaseTest.php" name="test/Horde/Itip/Unit/Response/Type/BaseTest.php" />
@@ -839,7 +837,7 @@
    <stability>
     <release>stable</release>
     <api>stable</api></stability>
-   <date>2017-10-17</date>
+   <date>2017-10-20</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
 * 
