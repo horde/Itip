@@ -1,5 +1,5 @@
 {
-    "name": "horde/horde-itip",
+    "name": "horde/itip",
     "description": "iTip invitation response handling",
     "type": "library",
     "homepage": "https://pear.horde.org",
@@ -26,13 +26,13 @@
     ],
     "require": {
         "php": "^5.3 || ^7",
-        "pear-pear.horde.org/Horde_Icalendar": "^2@stable",
-        "pear-pear.horde.org/Horde_Mime": "^2.5@stable",
-        "pear-pear.horde.org/Horde_Translation": "^2.2@stable"
+        "pear-pear.horde.org/Horde_Icalendar": "^2",
+        "pear-pear.horde.org/Horde_Mime": "^2.5",
+        "pear-pear.horde.org/Horde_Translation": "^2.2"
     },
     "suggest": {
-        "pear-pear.horde.org/Horde_Prefs": "^2.3@stable",
-        "pear-pear.horde.org/Horde_Test": "^2.1@stable"
+        "pear-pear.horde.org/Horde_Prefs": "^2.3",
+        "pear-pear.horde.org/Horde_Test": "^2.1"
     },
     "replace": {
         "pear-pear.horde.org/Horde_Itip": "2.*",
