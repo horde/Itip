@@ -1,0 +1,173 @@
+----------
+v2.1.3-git
+----------
+
+
+------
+v2.1.2
+------
+
+[jan] Update Greek translation (Limperis Antonis <limperis@cti.gr>).
+
+
+------
+v2.1.1
+------
+
+[jan] Mark PHP 7 as supported.
+
+
+------
+v2.1.0
+------
+
+[mjr] Add support for iTip responses to vTodo requests.
+
+
+------
+v2.0.7
+------
+
+[jan] Support loading translations from Composer-installed package.
+[jan] Improve PSR-2 compatibility.
+
+
+------
+v2.0.6
+------
+
+[jan] Update Hungarian translation (Andras Galos <galosa@netinform.hu>).
+[jan] Update Danish translation (Erling Preben Hansen <erling@eph.dk>).
+
+
+------
+v2.0.5
+------
+
+[jan] Update Ukrainian translation (Andriy Kopystyansky
+      <anri@polynet.lviv.ua>).
+[jan] Update Basque translation (Ibon Igartua <ibon.igartua@ehu.es>).
+
+
+------
+v2.0.4
+------
+
+[jan] Don't depend on an IMP identity object.
+
+
+------
+v2.0.3
+------
+
+[jan] Update French translation (Paul De Vlieger
+      <paul.de_vlieger@moniut.univ-bpclermont.fr>).
+
+
+------
+v2.0.2
+------
+
+[jan] Update Basque translation (Ibon Igartua <ibon.igartua@ehu.es>).
+
+
+------
+v2.0.1
+------
+
+[jan] Update Dutch translation (Arjen de Korte <build+horde@de-korte.org>).
+
+
+------
+v2.0.0
+------
+
+First stable release for Horde 5.
+
+
+-----------
+v2.0.0beta1
+-----------
+
+First beta release for Horde 5.
+
+
+------------
+v2.0.0alpha1
+------------
+
+First alpha release for Horde 5.
+
+
+------
+v1.0.7
+------
+
+[jan] Fix line breaks of iTip responses when using quoted-printable encoding
+      (Bug #10888).
+
+
+------
+v1.0.6
+------
+
+[jan] Add Estonian translation.
+
+
+------
+v1.0.5
+------
+
+[jan] Update Croatian translation.
+[jan] Make unit tests locale independent.
+
+
+------
+v1.0.4
+------
+
+[jan] Update Latvian translation.
+
+
+------
+v1.0.3
+------
+
+[jan] Update Lithuanian translation.
+[jan] Update Brazilian Portuguese translation.
+
+
+------
+v1.0.2
+------
+
+[jan] Updated Slovak translation.
+
+
+------
+v1.0.1
+------
+
+[jan] Updated Spanish translation.
+
+
+------
+v1.0.0
+------
+
+First stable release for Horde 4.
+
+
+---------
+v1.0.0RC2
+---------
+
+Second release candidate for Horde 4.
+
+
+---------
+v1.0.0RC1
+---------
+
+First release candidate for Horde 4.
+[gwr] Extracted package from Kolab_Resource.

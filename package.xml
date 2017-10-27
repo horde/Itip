@@ -16,7 +16,7 @@
   <email>jan@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2017-10-20</date>
+ <date>2017-10-27</date>
  <version>
   <release>2.1.3</release>
   <api>1.1.0</api>
@@ -30,6 +30,13 @@
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
+   <dir name="doc">
+    <dir name="Horde">
+     <dir name="Itip">
+      <file name="CHANGES" role="doc" />
+     </dir> <!-- /doc/Horde/Itip -->
+    </dir> <!-- /doc/Horde -->
+   </dir> <!-- /doc -->
    <dir name="lib">
     <dir name="Horde">
      <dir name="Itip">
@@ -402,6 +409,7 @@
  </dependencies>
  <phprelease>
   <filelist>
+   <install as="CHANGES" name="doc/Horde/Itip/CHANGES" />
    <install as="Horde/Itip.php" name="lib/Horde/Itip.php" />
    <install as="Horde/Itip/Event.php" name="lib/Horde/Itip/Event.php" />
    <install as="Horde/Itip/Event/Vevent.php" name="lib/Horde/Itip/Event/Vevent.php" />
@@ -836,7 +844,7 @@
    <stability>
     <release>stable</release>
     <api>stable</api></stability>
-   <date>2017-10-20</date>
+   <date>2017-10-27</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
    </notes>
