@@ -354,7 +354,6 @@
       <file name="AllTests.php" role="test" />
       <file name="Autoload.php" role="test" />
       <file name="bootstrap.php" role="test" />
-      <file name="phpunit.xml" role="test" />
      </dir> <!-- /test/Horde/Itip -->
     </dir> <!-- /test/Horde -->
    </dir> <!-- /test -->
@@ -521,7 +520,6 @@
    <install as="Horde/Itip/AllTests.php" name="test/Horde/Itip/AllTests.php" />
    <install as="Horde/Itip/Autoload.php" name="test/Horde/Itip/Autoload.php" />
    <install as="Horde/Itip/bootstrap.php" name="test/Horde/Itip/bootstrap.php" />
-   <install as="Horde/Itip/phpunit.xml" name="test/Horde/Itip/phpunit.xml" />
    <install as="Horde/Itip/Integration/ItipTest.php" name="test/Horde/Itip/Integration/ItipTest.php" />
    <install as="Horde/Itip/Stub/Identity.php" name="test/Horde/Itip/Stub/Identity.php" />
    <install as="Horde/Itip/Unit/Event/VeventTest.php" name="test/Horde/Itip/Unit/Event/VeventTest.php" />
