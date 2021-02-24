@@ -38,9 +38,6 @@
     "autoload": {
         "psr-0": {
             "Horde_Itip": "lib/"
-        },
-        "psr-4": {
-            "Horde\\Itip\\": "src/"
         }
     }
 }
