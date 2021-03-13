@@ -1,4 +1,5 @@
 {
+    "minimum-stability": "dev",
     "name": "horde/itip",
     "description": "iTip invitation response library",
     "type": "library",
@@ -25,13 +26,13 @@
     ],
     "require": {
         "php": "^7",
-        "horde/icalendar": "^3",
-        "horde/mime": "^3",
-        "horde/translation": "^3"
+        "horde/icalendar": "^3 || dev-FRAMEWORK_6_0",
+        "horde/mime": "^3 || dev-FRAMEWORK_6_0",
+        "horde/translation": "^3 || dev-FRAMEWORK_6_0"
     },
     "suggest": {
-        "horde/prefs": "^3",
-        "horde/test": "^3"
+        "horde/prefs": "^3 || dev-FRAMEWORK_6_0",
+        "horde/test": "^3 || dev-FRAMEWORK_6_0"
     },
     "autoload": {
         "psr-0": {
