@@ -14,8 +14,12 @@
  * @author     Gunnar Wrobel <wrobel@pardus.de>
  * @license    http://www.horde.org/licenses/lgpl21 LGPL 2.1
  */
-class Horde_Itip_Unit_Event_VeventTest
-extends PHPUnit_Framework_TestCase
+namespace Horde\Itip\Integration\Unit\Event;
+use PHPUnit\Framework\TestCase;
+use \Horde_Icalendar;
+use \Horde_Itip_Event_Vevent;
+
+class VeventTest extends TestCase
 {
     public function testGetMethodReturnsMethod()
     {
