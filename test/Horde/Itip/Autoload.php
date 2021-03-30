@@ -12,4 +12,7 @@
  */
 
 /** Load dependencies from the test suite */
-require_once __DIR__ . '/Stub/Identity.php';
+$autoload = __DIR__ . '/Stub/Identity.php';
+if (file_exists($autoload)) {
+    require_once $autoload;
+}

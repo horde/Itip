@@ -10,6 +10,10 @@
  * @author     Gunnar Wrobel <wrobel@pardus.de>
  * @license    http://www.horde.org/licenses/lgpl21 LGPL 2.1
  */
+namespace Horde\Itip\Integration\Unit\Response\Type;
+use PHPUnit\Framework\TestCase;
+use \Horde_Itip_Response_Type_Accept;
+use \Horde_Itip_Resource_Base;
 
 /**
  * Test the base response definition.
@@ -26,14 +30,12 @@
  * @author     Gunnar Wrobel <wrobel@pardus.de>
  * @license    http://www.horde.org/licenses/lgpl21 LGPL 2.1
  */
-class Horde_Itip_Unit_Response_Type_BaseTest
-extends PHPUnit_Framework_TestCase
+class BaseTest extends TestCase
 {
-    /**
-     * @expectedException Horde_Itip_Exception
-     */
+
     public function testExceptionOnUndefinedRequest()
     {
+        $this->expectException('Horde_Itip_Exception');
         $type = new Horde_Itip_Response_Type_Accept(
             new Horde_Itip_Resource_Base('', '')
         );
