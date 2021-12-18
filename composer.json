@@ -4,7 +4,7 @@
     "description": "iTip invitation response library",
     "type": "library",
     "homepage": "https://www.horde.org/libraries/Horde_Itip",
-    "license": "LGPL-2.1",
+    "license": "LGPL-2.1-only",
     "authors": [
         {
             "name": "Gunnar Wrobel",
@@ -25,7 +25,7 @@
         }
     ],
     "require": {
-        "php": "^7",
+        "php": "^7.4 || ^8",
         "horde/icalendar": "^3 || dev-FRAMEWORK_6_0",
         "horde/mime": "^3 || dev-FRAMEWORK_6_0",
         "horde/translation": "^3 || dev-FRAMEWORK_6_0"
