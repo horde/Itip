@@ -27,19 +27,19 @@
  * @license    http://www.horde.org/licenses/lgpl21 LGPL 2.1
  */
 class Horde_Itip_Integration_ItipTest
-extends PHPUnit_Framework_TestCase
+extends Horde_Test_Case
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         setlocale(LC_ALL, 'C');
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         setlocale(LC_ALL, '');
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->_transport = new Horde_Mail_Transport_Mock();
     }
@@ -156,7 +156,7 @@ extends PHPUnit_Framework_TestCase
             $this->_transport
         );
         
-        $this->assertContains(
+        $this->assertStringContainsString(
             'From: Mister Test <test@example.org>',
             $this->_transport->sentMessages[0]['header_text']
         );
@@ -181,7 +181,7 @@ extends PHPUnit_Framework_TestCase
             $this->_transport
         );
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             'From: "Mr. Test" <test@example.org>',
             $this->_transport->sentMessages[0]['header_text']
         );
@@ -206,7 +206,7 @@ extends PHPUnit_Framework_TestCase
             $this->_transport
         );
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             'From: default@example.org',
             $this->_transport->sentMessages[0]['header_text']
         );
@@ -222,7 +222,7 @@ extends PHPUnit_Framework_TestCase
             $this->_transport
         );
         
-        $this->assertContains(
+        $this->assertStringContainsString(
             'To: orga@example.org', 
             $this->_transport->sentMessages[0]['header_text']
         );
@@ -237,7 +237,7 @@ extends PHPUnit_Framework_TestCase
             new Horde_Itip_Response_Options_Kolab(),
             $this->_transport
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Subject: Accepted: Test',
             $this->_transport->sentMessages[0]['header_text']
         );
@@ -252,7 +252,7 @@ extends PHPUnit_Framework_TestCase
             new Horde_Itip_Response_Options_Kolab(),
             $this->_transport
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Subject: Declined: Test',
             $this->_transport->sentMessages[0]['header_text']
         );
@@ -267,7 +267,7 @@ extends PHPUnit_Framework_TestCase
             new Horde_Itip_Response_Options_Kolab(),
             $this->_transport
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Subject: Tentative: Test',
             $this->_transport->sentMessages[0]['header_text']
         );
@@ -282,7 +282,7 @@ extends PHPUnit_Framework_TestCase
             new Horde_Itip_Response_Options_Kolab(),
             $this->_transport
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Subject: Accepted [info]: Test',
             $this->_transport->sentMessages[0]['header_text']
         );
@@ -339,7 +339,7 @@ extends PHPUnit_Framework_TestCase
             new Horde_Itip_Response_Options_Kolab(),
             $this->_transport
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Subject: Declined: Test',
             $this->_transport->sentMessages[0]['header_text']
         );
@@ -354,7 +354,7 @@ extends PHPUnit_Framework_TestCase
             new Horde_Itip_Response_Options_Kolab(),
             $this->_transport
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Subject: Tentative: Test',
             $this->_transport->sentMessages[0]['header_text']
         );
@@ -370,7 +370,7 @@ extends PHPUnit_Framework_TestCase
             new Horde_Itip_Response_Options_Horde('UTF-8', array()),
             $this->_transport
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Message-ID:',
             $this->_transport->sentMessages[0]['header_text']
         );

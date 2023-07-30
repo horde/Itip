@@ -15,7 +15,7 @@
  * @license    http://www.horde.org/licenses/lgpl21 LGPL 2.1
  */
 class Horde_Itip_Unit_Event_VeventTest
-extends PHPUnit_Framework_TestCase
+extends Horde_Test_Case
 {
     public function testGetMethodReturnsMethod()
     {

@@ -27,13 +27,12 @@
  * @license    http://www.horde.org/licenses/lgpl21 LGPL 2.1
  */
 class Horde_Itip_Unit_Response_Type_BaseTest
-extends PHPUnit_Framework_TestCase
+extends Horde_Test_Case
 {
-    /**
-     * @expectedException Horde_Itip_Exception
-     */
     public function testExceptionOnUndefinedRequest()
     {
+        $this->expectException('Horde_Itip_Exception');
+
         $type = new Horde_Itip_Response_Type_Accept(
             new Horde_Itip_Resource_Base('', '')
         );
