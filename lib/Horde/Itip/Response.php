@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Handles Itip response data.
  *
@@ -16,8 +17,8 @@
 /**
  * Handles Itip response data.
  *
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
- * Copyright 2004-2010 Klarälvdalens Datakonsult AB
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
+ * Copyright 2004-2026 Klarälvdalens Datakonsult AB
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did not
  * receive this file, see
@@ -57,8 +58,7 @@ class Horde_Itip_Response
     public function __construct(
         Horde_Itip_Event $request,
         Horde_Itip_Resource $resource
-    )
-    {
+    ) {
         $this->_request  = $request;
         $this->_resource = $resource;
     }
@@ -85,8 +85,7 @@ class Horde_Itip_Response
     public function getVevent(
         Horde_Itip_Response_Type $type,
         $vCal = false
-    )
-    {
+    ) {
         $itip_reply = new Horde_Itip_Event_Vevent(
             Horde_Icalendar::newComponent('VEVENT', $vCal)
         );
@@ -113,8 +112,7 @@ class Horde_Itip_Response
     public function getIcalendar(
         Horde_Itip_Response_Type $type,
         Horde_Itip_Response_Options $options
-    )
-    {
+    ) {
         $vCal = new Horde_Icalendar();
         $options->prepareIcalendar($vCal);
         $vCal->setAttribute('METHOD', 'REPLY');
@@ -139,8 +137,7 @@ class Horde_Itip_Response
     public function getMessage(
         Horde_Itip_Response_Type $type,
         Horde_Itip_Response_Options $options
-    )
-    {
+    ) {
         $message = new Horde_Mime_Part();
         $message->setType('text/calendar');
         $options->prepareIcsMimePart($message);
@@ -162,12 +159,13 @@ class Horde_Itip_Response
             $headers->addHeader('Reply-to', $reply_to);
         }
         $headers->addHeader(
-            'Subject', $type->getSubject()
+            'Subject',
+            $type->getSubject()
         );
 
         $options->prepareResponseMimeHeaders($headers);
 
-        return array($headers, $message);
+        return [$headers, $message];
     }
 
     /**
@@ -182,12 +180,11 @@ class Horde_Itip_Response
     public function getMultiPartMessage(
         Horde_Itip_Response_Type $type,
         Horde_Itip_Response_Options $options
-    )
-    {
+    ) {
         $message = new Horde_Mime_Part();
         $message->setType('multipart/alternative');
 
-        list($headers, $ics) = $this->getMessage($type, $options);
+        [$headers, $ics] = $this->getMessage($type, $options);
 
         $body = new Horde_Mime_Part();
         $body->setType('text/plain');
@@ -197,6 +194,6 @@ class Horde_Itip_Response
         $message->addPart($body);
         $message->addPart($ics);
 
-        return array($headers, $message);
+        return [$headers, $message];
     }
 }

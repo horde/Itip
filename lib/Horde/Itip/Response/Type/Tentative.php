@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Indicates a tentatively accepted invitation.
  *
@@ -13,7 +14,7 @@
 /**
  * Indicates a tentatively accepted invitation.
  *
- * Copyright 2010 Kolab Systems AG
+ * Copyright 2010-2026 Kolab Systems AG
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did not
  * receive this file, see
@@ -24,8 +25,7 @@
  * @author   Gunnar Wrobel <wrobel@pardus.de>
  * @license  http://www.horde.org/licenses/lgpl21 LGPL
  */
-class Horde_Itip_Response_Type_Tentative
-extends Horde_Itip_Response_Type_Base
+class Horde_Itip_Response_Type_Tentative extends Horde_Itip_Response_Type_Base
 {
     /**
      * Return the status of the response.

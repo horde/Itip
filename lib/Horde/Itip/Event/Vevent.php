@@ -1,4 +1,5 @@
 <?php
+
 /**
  * A wrapper for vEvent iCalender data.
  *
@@ -13,8 +14,8 @@
 /**
  * A wrapper for vEvent iCalender data.
  *
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
- * Copyright 2004-2010 Klarälvdalens Datakonsult AB
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
+ * Copyright 2004-2026 Klarälvdalens Datakonsult AB
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did not
  * receive this file, see
@@ -29,8 +30,7 @@
  * is not nice. Reconsider if an interface is really needed. See also PMD
  * report.
  */
-class Horde_Itip_Event_Vevent
-implements Horde_Itip_Event
+class Horde_Itip_Event_Vevent implements Horde_Itip_Event
 {
     /**
      * The wrapped vEvent.
@@ -155,10 +155,10 @@ implements Horde_Itip_Event
         $this->_vevent->setAttribute(
             'ATTENDEE',
             'mailto:' . $attendee,
-            array(
+            [
                 'CN' => $common_name,
-                'PARTSTAT' => $status
-            )
+                'PARTSTAT' => $status,
+            ]
         );
     }
 

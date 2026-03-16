@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Basic iTip response type definition.
  *
@@ -13,7 +14,7 @@
 /**
  * Basic iTip response type definition.
  *
- * Copyright 2010 Kolab Systems AG
+ * Copyright 2010-2026 Kolab Systems AG
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did not
  * receive this file, see
@@ -24,8 +25,7 @@
  * @author   Gunnar Wrobel <wrobel@pardus.de>
  * @license  http://www.horde.org/licenses/lgpl21 LGPL
  */
-abstract class Horde_Itip_Response_Type_Base
-implements Horde_Itip_Response_Type
+abstract class Horde_Itip_Response_Type_Base implements Horde_Itip_Response_Type
 {
     /**
      * The request we are going to answer.
@@ -51,14 +51,13 @@ implements Horde_Itip_Response_Type
     /**
      * Constructor.
      *
-     * @param Horde_Itip_Resource $resource  The invited resource. 
+     * @param Horde_Itip_Resource $resource  The invited resource.
      * @param string              $comment   A comment for the subject line.
      */
     public function __construct(
         Horde_Itip_Resource $resource,
         $comment = null
-    )
-    {
+    ) {
         $this->_resource = $resource;
         $this->_comment  = $comment;
     }
@@ -73,8 +72,7 @@ implements Horde_Itip_Response_Type
      */
     public function setRequest(
         Horde_Itip_Event $request
-    )
-    {
+    ) {
         $this->_request  = $request;
     }
 

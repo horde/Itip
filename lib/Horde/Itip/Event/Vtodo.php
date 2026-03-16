@@ -1,4 +1,5 @@
 <?php
+
 /**
  * A wrapper for vTodo iCalender data.
  *
@@ -14,8 +15,8 @@
 /**
  * A wrapper for vTodo iCalender data.
  *
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
- * Copyright 2004-2010 Klarälvdalens Datakonsult AB
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
+ * Copyright 2004-2026 Klarälvdalens Datakonsult AB
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did not
  * receive this file, see
@@ -31,8 +32,7 @@
  * is not nice. Reconsider if an interface is really needed. See also PMD
  * report.
  */
-class Horde_Itip_Event_Vtodo
-implements Horde_Itip_Event
+class Horde_Itip_Event_Vtodo implements Horde_Itip_Event
 {
     /**
      * The wrapped vEvent.
@@ -108,9 +108,7 @@ implements Horde_Itip_Event
      *
      * @return string The end of the event.
      */
-    public function getEnd()
-    {
-    }
+    public function getEnd() {}
 
     /**
      * Return the organizer of the iTip event.
@@ -167,10 +165,10 @@ implements Horde_Itip_Event
         $this->_vevent->setAttribute(
             'ATTENDEE',
             'mailto:' . $attendee,
-            array(
+            [
                 'CN' => $common_name,
-                'PARTSTAT' => $status
-            )
+                'PARTSTAT' => $status,
+            ]
         );
     }
 
@@ -279,7 +277,7 @@ implements Horde_Itip_Event
             $parameters = $this->_vevent->getAttribute('DTSTART', true);
             return array_pop($parameters);
         } catch (Horde_Icalendar_Exception $e) {
-            return array();
+            return [];
         }
     }
 

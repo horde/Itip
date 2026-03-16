@@ -1,7 +1,8 @@
 <?php
+
 /**
- * Copyright 2010 Kolab Systems AG
- * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2010-2026 Kolab Systems AG
+ * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21 LGPL.
@@ -63,9 +64,7 @@ class Horde_Itip_Resource_Base implements Horde_Itip_Resource
      *
      * @return string The reply-to address.
      */
-    public function getReplyTo()
-    {
-    }
+    public function getReplyTo() {}
 
     /**
      * Retrieve the common name of the resource.

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Handles iTip response options for Horde iTip responses.
  *
@@ -13,7 +14,7 @@
 /**
  * Handles iTip response options for Horde iTip responses.
  *
- * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did not
  * receive this file, see
@@ -24,8 +25,7 @@
  * @author   Gunnar Wrobel <wrobel@pardus.de>
  * @license  http://www.horde.org/licenses/lgpl21 LGPL
  */
-class Horde_Itip_Response_Options_Horde
-extends Horde_Itip_Response_Options_Base
+class Horde_Itip_Response_Options_Horde extends Horde_Itip_Response_Options_Base
 {
     /**
      * The MIME character set.

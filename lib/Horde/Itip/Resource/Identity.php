@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21 LGPL.
@@ -49,7 +50,7 @@ class Horde_Itip_Resource_Identity implements Horde_Itip_Resource
     {
         $this->_identity = $identity;
         if (!is_array($attendees)) {
-            $attendees = array($attendees);
+            $attendees = [$attendees];
         }
         foreach ($attendees as $attendee) {
             $attendee = preg_replace('/mailto:/i', '', $attendee);
@@ -98,6 +99,6 @@ class Horde_Itip_Resource_Identity implements Horde_Itip_Resource
      */
     public function getFrom()
     {
-        return (string)$this->_identity->getDefaultFromAddress(true);
+        return (string) $this->_identity->getDefaultFromAddress(true);
     }
 }

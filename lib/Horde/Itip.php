@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Handles iTip invitation requests/responses.
  *
@@ -13,7 +14,7 @@
 /**
  * Handles iTip invitation requests/responses.
  *
- * Copyright 2010 Klarälvdalens Datakonsult AB
+ * Copyright 2010-2026 Klarälvdalens Datakonsult AB
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did not
  * receive this file, see
@@ -52,10 +53,10 @@ class Horde_Itip
      */
     public function getVeventResponse(
         Horde_Itip_Response_Type $type
-    )
-    {
+    ) {
         return $this->_response->getVevent(
-            $type, false
+            $type,
+            false
         );
     }
 
@@ -71,10 +72,10 @@ class Horde_Itip
     public function getIcalendarResponse(
         Horde_Itip_Response_Type $type,
         $product_id
-    )
-    {
+    ) {
         return $this->_response->getIcalendar(
-            $type, $product_id
+            $type,
+            $product_id
         );
     }
 
@@ -93,10 +94,10 @@ class Horde_Itip
         Horde_Itip_Response_Type $type,
         Horde_Itip_Response_Options $options,
         Horde_Mail_Transport $transport
-    )
-    {
-        list($headers, $body) = $this->_response->getMessage(
-            $type, $options
+    ) {
+        [$headers, $body] = $this->_response->getMessage(
+            $type,
+            $options
         );
         try {
             $body->send(
@@ -123,10 +124,10 @@ class Horde_Itip
         Horde_Itip_Response_Type $type,
         Horde_Itip_Response_Options $options,
         Horde_Mail_Transport $transport
-    )
-    {
-        list($headers, $body) = $this->_response->getMultiPartMessage(
-            $type, $options
+    ) {
+        [$headers, $body] = $this->_response->getMultiPartMessage(
+            $type,
+            $options
         );
         try {
             $body->send(
@@ -151,8 +152,7 @@ class Horde_Itip
     public static function vTodoFactory(
         Horde_Icalendar_Vtodo $todo,
         Horde_Itip_Resource $resource
-    )
-    {
+    ) {
         return new Horde_Itip(
             new Horde_Itip_Response_Vtodo(
                 new Horde_Itip_Event_Vtodo(
@@ -174,8 +174,7 @@ class Horde_Itip
     public static function prepareResponse(
         Horde_Icalendar_Vevent $vevent,
         Horde_Itip_Resource $resource
-    )
-    {
+    ) {
         return new Horde_Itip_Response(
             new Horde_Itip_Event_Vevent(
                 $vevent
@@ -195,8 +194,7 @@ class Horde_Itip
     public static function factory(
         Horde_Icalendar_Vevent $vevent,
         Horde_Itip_Resource $resource
-    )
-    {
+    ) {
         return new Horde_Itip(
             self::prepareResponse($vevent, $resource)
         );

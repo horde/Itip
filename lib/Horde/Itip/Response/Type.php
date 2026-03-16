@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Marks the response type.
  *
@@ -13,7 +14,7 @@
 /**
  * Marks the response type.
  *
- * Copyright 2010 Kolab Systems AG
+ * Copyright 2010-2026 Kolab Systems AG
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did not
  * receive this file, see
