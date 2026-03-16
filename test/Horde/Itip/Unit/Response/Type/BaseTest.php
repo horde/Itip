@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test the base response definition.
  *
@@ -10,15 +11,18 @@
  * @author     Gunnar Wrobel <wrobel@pardus.de>
  * @license    http://www.horde.org/licenses/lgpl21 LGPL 2.1
  */
+
 namespace Horde\Itip\Integration\Unit\Response\Type;
+
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use \Horde_Itip_Response_Type_Accept;
-use \Horde_Itip_Resource_Base;
+use Horde_Itip_Response_Type_Accept;
+use Horde_Itip_Resource_Base;
 
 /**
  * Test the base response definition.
  *
- * Copyright 2010 Kolab Systems AG
+ * Copyright 2010-2026 Kolab Systems AG
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did not
  * receive this file, see
@@ -30,9 +34,9 @@ use \Horde_Itip_Resource_Base;
  * @author     Gunnar Wrobel <wrobel@pardus.de>
  * @license    http://www.horde.org/licenses/lgpl21 LGPL 2.1
  */
+#[CoversClass(Horde_Itip_Response_Type_Accept::class)]
 class BaseTest extends TestCase
 {
-
     public function testExceptionOnUndefinedRequest()
     {
         $this->expectException('Horde_Itip_Exception');

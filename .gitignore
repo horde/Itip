@@ -46,6 +46,7 @@ run-tests.log
 # PHP CS Fixer cache file
 /.php-cs-fixer.cache
 # PHPUnit result cache
+/.phpunit.cache/
 /.phpunit.result.cache
 # PHPStan local configuration (if not committed)
 /phpstan.neon

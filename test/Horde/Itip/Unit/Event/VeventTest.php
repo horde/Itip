@@ -1,8 +1,9 @@
 <?php
+
 /**
  * Test the vEvent iCal handling.
  *
- * Copyright 2010 Kolab Systems AG
+ * Copyright 2010-2026 Kolab Systems AG
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did not
  * receive this file, see
@@ -14,11 +15,15 @@
  * @author     Gunnar Wrobel <wrobel@pardus.de>
  * @license    http://www.horde.org/licenses/lgpl21 LGPL 2.1
  */
-namespace Horde\Itip\Integration\Unit\Event;
-use PHPUnit\Framework\TestCase;
-use \Horde_Icalendar;
-use \Horde_Itip_Event_Vevent;
 
+namespace Horde\Itip\Integration\Unit\Event;
+
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\TestCase;
+use Horde_Icalendar;
+use Horde_Itip_Event_Vevent;
+
+#[CoversClass(Horde_Itip_Event_Vevent::class)]
 class VeventTest extends TestCase
 {
     public function testGetMethodReturnsMethod()

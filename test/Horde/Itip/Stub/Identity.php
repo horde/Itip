@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Dummy IMP_Prefs_Identity stub.
  *
@@ -14,7 +15,7 @@
 /**
  * Dummy IMP_Prefs_Identity stub.
  *
- * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -71,19 +72,20 @@ class Horde_Itip_Stub_Identity
     public function getValue($value)
     {
         switch ($value) {
-        case 'fullname':
-            if ($this->_id == 'test') {
-                return 'Mr. Test';
-            } else {
-                return '';
-            }
-        case 'replyto_addr':
-            switch ($this->_id) {
-            case 'test':
-                return 'test@example.org';
-            case 'other':
-                return 'reply@example.org';
-            }
+            case 'fullname':
+                if ($this->_id == 'test') {
+                    return 'Mr. Test';
+                } else {
+                    return '';
+                }
+                // no break
+            case 'replyto_addr':
+                switch ($this->_id) {
+                    case 'test':
+                        return 'test@example.org';
+                    case 'other':
+                        return 'reply@example.org';
+                }
         }
     }
 }

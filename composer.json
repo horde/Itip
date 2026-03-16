@@ -1,5 +1,4 @@
 {
-    "minimum-stability": "dev",
     "name": "horde/itip",
     "description": "iTip invitation response library",
     "type": "library",
@@ -17,23 +16,19 @@
             "role": "lead"
         }
     ],
-    "time": "2022-11-05",
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://horde-satis.maintaina.com"
-        }
-    ],
+    "time": "2026-03-16",
+    "repositories": [],
     "require": {
         "php": "^7.4 || ^8",
-        "horde/icalendar": "^3 || dev-FRAMEWORK_6_0",
-        "horde/mime": "^3 || dev-FRAMEWORK_6_0",
-        "horde/translation": "^3 || dev-FRAMEWORK_6_0"
+        "horde/icalendar": "^3",
+        "horde/mime": "^3",
+        "horde/translation": "^3"
     },
-    "require-dev": {},
+    "require-dev": {
+        "horde/mail": "^3"
+    },
     "suggest": {
-        "horde/prefs": "^3 || dev-FRAMEWORK_6_0",
-        "horde/test": "^3 || dev-FRAMEWORK_6_0"
+        "horde/prefs": "^3"
     },
     "autoload": {
         "psr-0": {
@@ -45,9 +40,14 @@
             "Horde\\Itip\\Test\\": "test/"
         }
     },
+    "minimum-stability": "alpha",
+    "prefer-stable": true,
     "config": {
-        "allow-plugins": {
-            "horde/horde-installer-plugin": true
+        "allow-plugins": {}
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-FRAMEWORK_6_0": "3.x-dev"
         }
     }
 }

@@ -38,4 +38,6 @@ dependencies:
   optional:
     composer:
       horde/prefs: ^3
-      horde/test: ^3
+  dev:
+    composer:
+      horde/mail: ^3

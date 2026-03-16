@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test the itip response handling.
  *
@@ -10,25 +11,29 @@
  * @author     Gunnar Wrobel <wrobel@pardus.de>
  * @license    http://www.horde.org/licenses/lgpl21 LGPL 2.1
  */
+
 namespace Horde\Itip\Integration;
+
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
-use \Horde_Mail_Transport_Mock;
-use \Horde_Icalendar;
-use \Horde_Itip;
-use \Horde_Itip_Resource_Base;
-use \Horde_Itip_Response_Type_Accept;
-use \Horde_Itip_Response_Options_Kolab;
-use \Horde_Itip_Resource_Identity;
-use \Horde_Itip_Stub_Identity;
-use \Horde_Itip_Response_Type_Decline;
-use \Horde_Itip_Response_Type_Tentative;
-use \Horde_Mime_Part;
-use \Horde_Itip_Response_Options_Horde;
+use Horde_Mail_Transport_Mock;
+use Horde_Icalendar;
+use Horde_Itip;
+use Horde_Itip_Resource_Base;
+use Horde_Itip_Response_Type_Accept;
+use Horde_Itip_Response_Options_Kolab;
+use Horde_Itip_Resource_Identity;
+use Horde_Itip_Stub_Identity;
+use Horde_Itip_Response_Type_Decline;
+use Horde_Itip_Response_Type_Tentative;
+use Horde_Mime_Part;
+use Horde_Itip_Response_Options_Horde;
 
 /**
  * Test the itip response handling.
  *
- * Copyright 2010 Kolab Systems AG
+ * Copyright 2010-2026 Kolab Systems AG
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did not
  * receive this file, see
@@ -40,8 +45,18 @@ use \Horde_Itip_Response_Options_Horde;
  * @author     Gunnar Wrobel <wrobel@pardus.de>
  * @license    http://www.horde.org/licenses/lgpl21 LGPL 2.1
  */
+#[CoversClass(Horde_Itip::class)]
+#[UsesClass(Horde_Itip_Resource_Base::class)]
+#[UsesClass(Horde_Itip_Resource_Identity::class)]
+#[UsesClass(Horde_Itip_Response_Type_Accept::class)]
+#[UsesClass(Horde_Itip_Response_Type_Decline::class)]
+#[UsesClass(Horde_Itip_Response_Type_Tentative::class)]
+#[UsesClass(Horde_Itip_Response_Options_Kolab::class)]
+#[UsesClass(Horde_Itip_Response_Options_Horde::class)]
 class ItipTest extends TestCase
 {
+    private Horde_Mail_Transport_Mock $_transport;
+
     public static function setUpBeforeClass(): void
     {
         setlocale(LC_ALL, 'C');
@@ -168,7 +183,7 @@ class ItipTest extends TestCase
             new Horde_Itip_Response_Options_Kolab(),
             $this->_transport
         );
-        
+
         $this->assertStringContainsString(
             'From: Mister Test <test@example.org>',
             $this->_transport->sentMessages[0]['header_text']
@@ -234,9 +249,9 @@ class ItipTest extends TestCase
             new Horde_Itip_Response_Options_Kolab(),
             $this->_transport
         );
-        
+
         $this->assertStringContainsString(
-            'To: orga@example.org', 
+            'To: orga@example.org',
             $this->_transport->sentMessages[0]['header_text']
         );
     }
@@ -321,10 +336,10 @@ class ItipTest extends TestCase
         $parameters = $reply->getAttribute('ATTENDEE', true);
         $this->assertEquals(
             array_pop($parameters),
-            array(
+            [
                 'CN' => 'Mister Test',
-                'PARTSTAT' => 'ACCEPTED'
-            )
+                'PARTSTAT' => 'ACCEPTED',
+            ]
         );
     }
 
@@ -380,7 +395,7 @@ class ItipTest extends TestCase
         $iTip = $this->_getItip();
         $reply = $iTip->sendMultipartResponse(
             new Horde_Itip_Response_Type_Accept($this->_getResource(), 'info'),
-            new Horde_Itip_Response_Options_Horde('UTF-8', array()),
+            new Horde_Itip_Response_Options_Horde('UTF-8', []),
             $this->_transport
         );
         $this->assertStringContainsString(
