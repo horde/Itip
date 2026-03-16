@@ -20,15 +20,15 @@
     "repositories": [],
     "require": {
         "php": "^7.4 || ^8",
-        "horde/icalendar": "^3",
-        "horde/mime": "^3",
-        "horde/translation": "^3"
+        "horde/icalendar": "^3 || dev-FRAMEWORK_6_0",
+        "horde/mime": "^3 || dev-FRAMEWORK_6_0",
+        "horde/translation": "^3 || dev-FRAMEWORK_6_0"
     },
     "require-dev": {
-        "horde/mail": "^3"
+        "horde/mail": "^3 || dev-FRAMEWORK_6_0"
     },
     "suggest": {
-        "horde/prefs": "^3"
+        "horde/prefs": "^3 || dev-FRAMEWORK_6_0"
     },
     "autoload": {
         "psr-0": {
@@ -40,8 +40,6 @@
             "Horde\\Itip\\Test\\": "test/"
         }
     },
-    "minimum-stability": "alpha",
-    "prefer-stable": true,
     "config": {
         "allow-plugins": {}
     },
