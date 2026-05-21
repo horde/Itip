@@ -30,7 +30,7 @@ license:
   uri: http://www.horde.org/licenses/lgpl21
 dependencies:
   required:
-    php: ^7.4 || ^8
+    php: ^8.1
     composer:
       horde/icalendar: ^3
       horde/mime: ^3
@@ -42,3 +42,9 @@ dependencies:
     composer:
       horde/mail: ^3
 vendor: horde
+keywords:
+  - itip
+  - invitations
+quality:
+  phpstan:
+    level: 3
