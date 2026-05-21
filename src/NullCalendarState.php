@@ -30,18 +30,27 @@ use Horde\Icalendar\Enum\ParticipationStatus;
  */
 final class NullCalendarState implements CalendarState
 {
+    /** {@inheritdoc} */
     public function findEventByUid(string $uid): ?Vevent
     {
         return null;
     }
 
+    /** {@inheritdoc} */
     public function getAttendeeStatus(string $uid, string $email): ?ParticipationStatus
     {
         return null;
     }
 
+    /** {@inheritdoc} */
     public function getEventSequence(string $uid): ?int
     {
         return null;
+    }
+
+    /** {@inheritdoc} */
+    public function findEventInstances(string $uid): array
+    {
+        return [];
     }
 }

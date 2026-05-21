@@ -40,11 +40,17 @@ final readonly class ItipResult
         public array $conflicts = [],
     ) {}
 
+    /**
+     * Whether the result contains any scheduling conflicts.
+     */
     public function hasConflicts(): bool
     {
         return $this->conflicts !== [];
     }
 
+    /**
+     * Whether the message was accepted without conflicts.
+     */
     public function isAccepted(): bool
     {
         return !$this->hasConflicts();

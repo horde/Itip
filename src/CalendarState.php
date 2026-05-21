@@ -47,4 +47,13 @@ interface CalendarState
      * Get the current SEQUENCE number of an existing event.
      */
     public function getEventSequence(string $uid): ?int;
+
+    /**
+     * Find all recurrence instances of an event by its UID.
+     *
+     * Used by the ADD method to validate new instances against existing ones.
+     *
+     * @return list<Vevent>
+     */
+    public function findEventInstances(string $uid): array;
 }

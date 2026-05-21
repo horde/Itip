@@ -35,6 +35,9 @@ final readonly class ItipMessage
         public string $actorEmail,
     ) {}
 
+    /**
+     * Create from a VCalendar, extracting its METHOD property.
+     */
     public static function fromCalendar(VCalendar $cal, string $actorEmail): self
     {
         $method = $cal->getMethod();
@@ -45,12 +48,18 @@ final readonly class ItipMessage
         return new self($cal, $method, strtolower($actorEmail));
     }
 
+    /**
+     * Get the first VEVENT from the calendar, or null if none.
+     */
     public function getFirstEvent(): ?Vevent
     {
         $events = $this->calendar->getEvents();
         return $events[0] ?? null;
     }
 
+    /**
+     * Get the first VTODO from the calendar, or null if none.
+     */
     public function getFirstTodo(): ?Vtodo
     {
         $todos = $this->calendar->getTodos();

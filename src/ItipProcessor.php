@@ -28,14 +28,23 @@ use Horde\Icalendar\Enum\EventStatus;
 use Horde\Icalendar\Enum\ParticipationStatus;
 use Horde\Icalendar\Value\Attendee;
 use Horde\Icalendar\Value\Organizer;
+use Horde\Itip\Action\SendAdd;
 use Horde\Itip\Action\SendCancel;
+use Horde\Itip\Action\SendCounter;
+use Horde\Itip\Action\SendDeclineCounter;
+use Horde\Itip\Action\SendPublish;
+use Horde\Itip\Action\SendRefresh;
 use Horde\Itip\Action\SendReply;
 use Horde\Itip\Action\SendRequest;
+use Horde\Itip\Change\AddInstances;
 use Horde\Itip\Change\CancelEvent;
 use Horde\Itip\Change\CancelInstance;
 use Horde\Itip\Change\CreateEvent;
+use Horde\Itip\Change\PublishEvent;
+use Horde\Itip\Change\RefreshRequested;
 use Horde\Itip\Change\UpdateAttendeeStatus;
 use Horde\Itip\Change\UpdateEvent;
+use Horde\Itip\Conflict\CounterDeclined;
 use Horde\Itip\Conflict\MissingRequiredProperty;
 use Horde\Itip\Conflict\OutdatedSequence;
 use Horde\Itip\Conflict\UnknownAttendee;
@@ -65,6 +74,11 @@ final class ItipProcessor
             CalendarMethod::REQUEST => $this->processRequest($message),
             CalendarMethod::REPLY => $this->processReply($message),
             CalendarMethod::CANCEL => $this->processCancel($message),
+            CalendarMethod::PUBLISH => $this->processPublish($message),
+            CalendarMethod::ADD => $this->processAdd($message),
+            CalendarMethod::REFRESH => $this->processRefresh($message),
+            CalendarMethod::COUNTER => $this->processCounter($message),
+            CalendarMethod::DECLINECOUNTER => $this->processDeclineCounter($message),
             default => new ItipResult(),
         };
     }
@@ -131,6 +145,99 @@ final class ItipProcessor
         $clone = clone $event;
         $clone->setStatus(EventStatus::from('CANCELLED'));
         $clone->setSequence($event->getSequence() + 1);
+        $clone->setDtstamp(new DateTimeImmutable('now', new DateTimeZone('UTC')));
+        $cal->addChild($clone);
+
+        return $cal;
+    }
+
+    /**
+     * Generate a METHOD=PUBLISH VCalendar for sending to subscribers.
+     */
+    public function generatePublish(Vevent $event): VCalendar
+    {
+        $cal = new VCalendar();
+        $cal->setVersion();
+        $cal->setProdid('-//Horde//Horde iTIP Engine//EN');
+        $cal->setMethod(CalendarMethod::from('PUBLISH'));
+
+        $clone = clone $event;
+        $clone->setDtstamp(new DateTimeImmutable('now', new DateTimeZone('UTC')));
+        $cal->addChild($clone);
+
+        return $cal;
+    }
+
+    /**
+     * Generate a METHOD=ADD VCalendar for sending new instances to attendees.
+     *
+     * @param list<Vevent> $instances  New instances (each must have RECURRENCE-ID)
+     */
+    public function generateAdd(array $instances, string $organizerEmail, string $uid, int $sequence): VCalendar
+    {
+        $cal = new VCalendar();
+        $cal->setVersion();
+        $cal->setProdid('-//Horde//Horde iTIP Engine//EN');
+        $cal->setMethod(CalendarMethod::from('ADD'));
+
+        foreach ($instances as $instance) {
+            $clone = clone $instance;
+            $clone->setUid($uid);
+            $clone->setSequence($sequence);
+            $clone->setDtstamp(new DateTimeImmutable('now', new DateTimeZone('UTC')));
+            $cal->addChild($clone);
+        }
+
+        return $cal;
+    }
+
+    /**
+     * Generate a METHOD=REFRESH VCalendar for requesting a fresh copy from the organizer.
+     */
+    public function generateRefresh(string $uid, string $attendeeEmail): VCalendar
+    {
+        $cal = new VCalendar();
+        $cal->setVersion();
+        $cal->setProdid('-//Horde//Horde iTIP Engine//EN');
+        $cal->setMethod(CalendarMethod::from('REFRESH'));
+
+        $event = new Vevent();
+        $event->setUid($uid);
+        $event->setDtstamp(new DateTimeImmutable('now', new DateTimeZone('UTC')));
+        $event->addAttendee(Attendee::create($attendeeEmail));
+        $cal->addChild($event);
+
+        return $cal;
+    }
+
+    /**
+     * Generate a METHOD=COUNTER VCalendar for proposing an alternative to the organizer.
+     */
+    public function generateCounter(Vevent $counterProposal, string $attendeeEmail): VCalendar
+    {
+        $cal = new VCalendar();
+        $cal->setVersion();
+        $cal->setProdid('-//Horde//Horde iTIP Engine//EN');
+        $cal->setMethod(CalendarMethod::from('COUNTER'));
+
+        $clone = clone $counterProposal;
+        $clone->setDtstamp(new DateTimeImmutable('now', new DateTimeZone('UTC')));
+        $cal->addChild($clone);
+
+        return $cal;
+    }
+
+    /**
+     * Generate a METHOD=DECLINECOUNTER VCalendar for rejecting a counter-proposal.
+     */
+    public function generateDeclineCounter(Vevent $originalEvent, string $organizerEmail): VCalendar
+    {
+        $cal = new VCalendar();
+        $cal->setVersion();
+        $cal->setProdid('-//Horde//Horde iTIP Engine//EN');
+        $cal->setMethod(CalendarMethod::from('DECLINECOUNTER'));
+
+        $clone = clone $originalEvent;
         $clone->setDtstamp(new DateTimeImmutable('now', new DateTimeZone('UTC')));
         $cal->addChild($clone);
 
@@ -291,6 +398,183 @@ final class ItipProcessor
 
         return new ItipResult(changes: [
             new CancelEvent($uid, $incomingSequence),
+        ]);
+    }
+
+    /**
+     * Process an incoming PUBLISH: store a published event (no scheduling relationship).
+     */
+    private function processPublish(ItipMessage $message): ItipResult
+    {
+        $event = $message->getFirstEvent();
+        if ($event === null) {
+            return new ItipResult(conflicts: [
+                new MissingRequiredProperty('VEVENT', 'PUBLISH requires a VEVENT component'),
+            ]);
+        }
+
+        $uid = $event->getUid();
+        if ($uid === null) {
+            return new ItipResult(conflicts: [
+                new MissingRequiredProperty('UID', 'VEVENT must have a UID'),
+            ]);
+        }
+
+        $existing = $this->state->findEventByUid($uid);
+
+        if (!$this->policy->shouldAcceptPublish($message, $existing)) {
+            return new ItipResult();
+        }
+
+        return new ItipResult(changes: [
+            new PublishEvent($event),
+        ]);
+    }
+
+    /**
+     * Process an incoming ADD: add new recurrence instances to an existing event.
+     */
+    private function processAdd(ItipMessage $message): ItipResult
+    {
+        $event = $message->getFirstEvent();
+        if ($event === null) {
+            return new ItipResult(conflicts: [
+                new MissingRequiredProperty('VEVENT', 'ADD requires a VEVENT component'),
+            ]);
+        }
+
+        $uid = $event->getUid();
+        if ($uid === null) {
+            return new ItipResult(conflicts: [
+                new MissingRequiredProperty('UID', 'VEVENT must have a UID'),
+            ]);
+        }
+
+        $existing = $this->state->findEventByUid($uid);
+        if ($existing === null) {
+            return new ItipResult(conflicts: [
+                new MissingRequiredProperty('UID', 'ADD references unknown event UID: ' . $uid),
+            ]);
+        }
+
+        $incomingSequence = $event->getSequence();
+        $existingSequence = $this->state->getEventSequence($uid) ?? 0;
+        if ($incomingSequence < $existingSequence) {
+            return new ItipResult(conflicts: [
+                new OutdatedSequence($incomingSequence, $existingSequence),
+            ]);
+        }
+
+        if (!$this->policy->shouldAcceptUpdate($message, $existing)) {
+            return new ItipResult();
+        }
+
+        $instances = $message->calendar->getEvents();
+
+        return new ItipResult(changes: [
+            new AddInstances($uid, $instances, $incomingSequence),
+        ]);
+    }
+
+    /**
+     * Process an incoming REFRESH: attendee requests a fresh copy of the event.
+     */
+    private function processRefresh(ItipMessage $message): ItipResult
+    {
+        $event = $message->getFirstEvent();
+        if ($event === null) {
+            return new ItipResult(conflicts: [
+                new MissingRequiredProperty('VEVENT', 'REFRESH requires a VEVENT component'),
+            ]);
+        }
+
+        $uid = $event->getUid();
+        if ($uid === null) {
+            return new ItipResult(conflicts: [
+                new MissingRequiredProperty('UID', 'VEVENT must have a UID'),
+            ]);
+        }
+
+        return new ItipResult(changes: [
+            new RefreshRequested($uid, $message->actorEmail),
+        ]);
+    }
+
+    /**
+     * Process an incoming COUNTER: attendee proposes an alternative.
+     */
+    private function processCounter(ItipMessage $message): ItipResult
+    {
+        $event = $message->getFirstEvent();
+        if ($event === null) {
+            return new ItipResult(conflicts: [
+                new MissingRequiredProperty('VEVENT', 'COUNTER requires a VEVENT component'),
+            ]);
+        }
+
+        $uid = $event->getUid();
+        if ($uid === null) {
+            return new ItipResult(conflicts: [
+                new MissingRequiredProperty('UID', 'VEVENT must have a UID'),
+            ]);
+        }
+
+        $existing = $this->state->findEventByUid($uid);
+        if ($existing === null) {
+            return new ItipResult(conflicts: [
+                new MissingRequiredProperty('UID', 'COUNTER references unknown event UID: ' . $uid),
+            ]);
+        }
+
+        $decision = $this->policy->shouldAcceptCounter($message, $existing);
+
+        if ($decision === true) {
+            return new ItipResult(changes: [
+                new UpdateEvent($uid, $event, $event->getSequence()),
+            ]);
+        }
+
+        if ($decision === false) {
+            $declineCal = $this->generateDeclineCounter($existing, '');
+            $organizerObj = $existing->getOrganizer();
+            $organizerEmail = $organizerObj !== null ? strtolower($organizerObj->getEmail()) : '';
+            $action = new SendDeclineCounter($organizerEmail, $message->actorEmail, $declineCal);
+
+            return new ItipResult(
+                conflicts: [new CounterDeclined($uid, $message->actorEmail, $existing)],
+                actions: $this->policy->shouldSendNotification($action) ? [$action] : [],
+            );
+        }
+
+        // null = manual review, return the proposal as a change for organizer to review
+        return new ItipResult(changes: [
+            new UpdateEvent($uid, $event, $event->getSequence()),
+        ]);
+    }
+
+    /**
+     * Process an incoming DECLINECOUNTER: organizer rejected our counter-proposal.
+     */
+    private function processDeclineCounter(ItipMessage $message): ItipResult
+    {
+        $event = $message->getFirstEvent();
+        if ($event === null) {
+            return new ItipResult(conflicts: [
+                new MissingRequiredProperty('VEVENT', 'DECLINECOUNTER requires a VEVENT component'),
+            ]);
+        }
+
+        $uid = $event->getUid();
+        if ($uid === null) {
+            return new ItipResult(conflicts: [
+                new MissingRequiredProperty('UID', 'VEVENT must have a UID'),
+            ]);
+        }
+
+        $existing = $this->state->findEventByUid($uid);
+
+        return new ItipResult(conflicts: [
+            new CounterDeclined($uid, $message->actorEmail, $existing ?? $event),
         ]);
     }
 

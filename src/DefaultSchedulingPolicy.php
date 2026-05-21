@@ -32,18 +32,33 @@ use Horde\Itip\Action\RequiredAction;
  */
 final class DefaultSchedulingPolicy implements SchedulingPolicy
 {
+    /** {@inheritdoc} */
     public function shouldAcceptUpdate(ItipMessage $message, ?Vevent $existing): bool
     {
         return true;
     }
 
+    /** {@inheritdoc} */
     public function shouldAutoRespond(ItipMessage $message): ?ParticipationStatus
     {
         return null;
     }
 
+    /** {@inheritdoc} */
     public function shouldSendNotification(RequiredAction $action): bool
     {
         return true;
+    }
+
+    /** {@inheritdoc} */
+    public function shouldAcceptPublish(ItipMessage $message, ?Vevent $existing): bool
+    {
+        return true;
+    }
+
+    /** {@inheritdoc} */
+    public function shouldAcceptCounter(ItipMessage $message, Vevent $existing): ?bool
+    {
+        return null;
     }
 }

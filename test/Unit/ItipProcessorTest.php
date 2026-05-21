@@ -14,11 +14,16 @@ use Horde\Icalendar\Enum\ParticipationStatus;
 use Horde\Icalendar\Value\Attendee;
 use Horde\Icalendar\Value\Organizer;
 use Horde\Itip\CalendarState;
+use Horde\Itip\Action\SendDeclineCounter;
+use Horde\Itip\Change\AddInstances;
 use Horde\Itip\Change\CancelEvent;
 use Horde\Itip\Change\CancelInstance;
 use Horde\Itip\Change\CreateEvent;
+use Horde\Itip\Change\PublishEvent;
+use Horde\Itip\Change\RefreshRequested;
 use Horde\Itip\Change\UpdateAttendeeStatus;
 use Horde\Itip\Change\UpdateEvent;
+use Horde\Itip\Conflict\CounterDeclined;
 use Horde\Itip\Conflict\MissingRequiredProperty;
 use Horde\Itip\Conflict\OutdatedSequence;
 use Horde\Itip\Conflict\UnknownAttendee;
@@ -104,9 +109,7 @@ final class ItipProcessorTest extends TestCase
         return $cal;
     }
 
-    // =========================================================================
     // REQUEST processing
-    // =========================================================================
 
     #[Test]
     public function requestCreatesNewEvent(): void
@@ -245,9 +248,7 @@ final class ItipProcessorTest extends TestCase
         $this->assertEmpty($result->actions);
     }
 
-    // =========================================================================
     // REPLY processing
-    // =========================================================================
 
     #[Test]
     public function replyUpdatesAttendeeStatus(): void
@@ -354,9 +355,7 @@ final class ItipProcessorTest extends TestCase
         $this->assertInstanceOf(UnknownAttendee::class, $result->conflicts[0]);
     }
 
-    // =========================================================================
     // CANCEL processing
-    // =========================================================================
 
     #[Test]
     public function cancelRemovesEvent(): void
@@ -441,9 +440,7 @@ final class ItipProcessorTest extends TestCase
         $this->assertInstanceOf(CancelEvent::class, $result->changes[0]);
     }
 
-    // =========================================================================
     // Generator methods on ItipProcessor
-    // =========================================================================
 
     #[Test]
     public function generateRequestProducesValidCalendar(): void
@@ -513,9 +510,7 @@ final class ItipProcessorTest extends TestCase
         $this->assertSame('CANCELLED', $events[0]->getStatus()->value);
     }
 
-    // =========================================================================
     // Unsupported methods
-    // =========================================================================
 
     #[Test]
     public function unsupportedMethodReturnsEmptyResult(): void
@@ -523,9 +518,9 @@ final class ItipProcessorTest extends TestCase
         $processor = $this->createProcessor();
         $cal = new VCalendar();
         $cal->setVersion();
-        $cal->setMethod(CalendarMethod::from('PUBLISH'));
+        $cal->setMethod(CalendarMethod::from('X-CUSTOM'));
         $event = new Vevent();
-        $event->setUid('uid-pub');
+        $event->setUid('uid-custom');
         $cal->addChild($event);
 
         $message = ItipMessage::fromCalendar($cal, 'user@example.com');
@@ -534,5 +529,398 @@ final class ItipProcessorTest extends TestCase
         $this->assertFalse($result->hasConflicts());
         $this->assertEmpty($result->changes);
         $this->assertEmpty($result->actions);
+    }
+
+    // PUBLISH processing
+
+    #[Test]
+    public function publishCreatesEvent(): void
+    {
+        $processor = $this->createProcessor();
+        $cal = new VCalendar();
+        $cal->setVersion();
+        $cal->setMethod(CalendarMethod::from('PUBLISH'));
+
+        $event = new Vevent();
+        $event->setUid('uid-pub');
+        $event->setSummary('Published Event');
+        $event->setDtstart(new DateTimeImmutable('2026-06-01 10:00', new DateTimeZone('UTC')));
+        $cal->addChild($event);
+
+        $message = ItipMessage::fromCalendar($cal, 'publisher@example.com');
+        $result = $processor->process($message);
+
+        $this->assertTrue($result->isAccepted());
+        $this->assertCount(1, $result->changes);
+        $this->assertInstanceOf(PublishEvent::class, $result->changes[0]);
+        $this->assertSame('uid-pub', $result->changes[0]->event->getUid());
+    }
+
+    #[Test]
+    public function publishUpdatesExistingEvent(): void
+    {
+        $existingEvent = new Vevent();
+        $existingEvent->setUid('uid-pub');
+        $existingEvent->setSequence(0);
+
+        $state = $this->createMock(CalendarState::class);
+        $state->method('findEventByUid')->willReturn($existingEvent);
+        $state->method('findEventInstances')->willReturn([]);
+
+        $processor = $this->createProcessor($state);
+        $cal = new VCalendar();
+        $cal->setVersion();
+        $cal->setMethod(CalendarMethod::from('PUBLISH'));
+
+        $event = new Vevent();
+        $event->setUid('uid-pub');
+        $event->setSummary('Updated Published Event');
+        $cal->addChild($event);
+
+        $message = ItipMessage::fromCalendar($cal, 'publisher@example.com');
+        $result = $processor->process($message);
+
+        $this->assertTrue($result->isAccepted());
+        $this->assertCount(1, $result->changes);
+        $this->assertInstanceOf(PublishEvent::class, $result->changes[0]);
+    }
+
+    #[Test]
+    public function publishRejectedByPolicy(): void
+    {
+        $policy = $this->createMock(SchedulingPolicy::class);
+        $policy->method('shouldAcceptPublish')->willReturn(false);
+        $policy->method('shouldAcceptUpdate')->willReturn(true);
+        $policy->method('shouldAutoRespond')->willReturn(null);
+        $policy->method('shouldSendNotification')->willReturn(true);
+        $policy->method('shouldAcceptCounter')->willReturn(null);
+
+        $processor = $this->createProcessor(policy: $policy);
+        $cal = new VCalendar();
+        $cal->setVersion();
+        $cal->setMethod(CalendarMethod::from('PUBLISH'));
+
+        $event = new Vevent();
+        $event->setUid('uid-pub');
+        $cal->addChild($event);
+
+        $message = ItipMessage::fromCalendar($cal, 'publisher@example.com');
+        $result = $processor->process($message);
+
+        $this->assertFalse($result->hasConflicts());
+        $this->assertEmpty($result->changes);
+    }
+
+    // ADD processing
+
+    #[Test]
+    public function addAppendsInstances(): void
+    {
+        $existingEvent = new Vevent();
+        $existingEvent->setUid('uid-recur');
+        $existingEvent->setSequence(1);
+
+        $state = $this->createMock(CalendarState::class);
+        $state->method('findEventByUid')->willReturn($existingEvent);
+        $state->method('getEventSequence')->willReturn(1);
+        $state->method('findEventInstances')->willReturn([]);
+
+        $processor = $this->createProcessor($state);
+        $cal = new VCalendar();
+        $cal->setVersion();
+        $cal->setMethod(CalendarMethod::from('ADD'));
+
+        $instance = new Vevent();
+        $instance->setUid('uid-recur');
+        $instance->setSequence(1);
+        $instance->setProperty('RECURRENCE-ID', '20260615T100000Z');
+        $instance->setDtstart(new DateTimeImmutable('2026-06-15 10:00', new DateTimeZone('UTC')));
+        $cal->addChild($instance);
+
+        $message = ItipMessage::fromCalendar($cal, 'organizer@example.com');
+        $result = $processor->process($message);
+
+        $this->assertTrue($result->isAccepted());
+        $this->assertCount(1, $result->changes);
+        $this->assertInstanceOf(AddInstances::class, $result->changes[0]);
+        $this->assertSame('uid-recur', $result->changes[0]->uid);
+        $this->assertSame(1, $result->changes[0]->sequence);
+    }
+
+    #[Test]
+    public function addRejectsOutdatedSequence(): void
+    {
+        $existingEvent = new Vevent();
+        $existingEvent->setUid('uid-recur');
+        $existingEvent->setSequence(3);
+
+        $state = $this->createMock(CalendarState::class);
+        $state->method('findEventByUid')->willReturn($existingEvent);
+        $state->method('getEventSequence')->willReturn(3);
+        $state->method('findEventInstances')->willReturn([]);
+
+        $processor = $this->createProcessor($state);
+        $cal = new VCalendar();
+        $cal->setVersion();
+        $cal->setMethod(CalendarMethod::from('ADD'));
+
+        $instance = new Vevent();
+        $instance->setUid('uid-recur');
+        $instance->setSequence(1);
+        $cal->addChild($instance);
+
+        $message = ItipMessage::fromCalendar($cal, 'organizer@example.com');
+        $result = $processor->process($message);
+
+        $this->assertTrue($result->hasConflicts());
+        $this->assertInstanceOf(OutdatedSequence::class, $result->conflicts[0]);
+    }
+
+    #[Test]
+    public function addRequiresExistingEvent(): void
+    {
+        $processor = $this->createProcessor();
+        $cal = new VCalendar();
+        $cal->setVersion();
+        $cal->setMethod(CalendarMethod::from('ADD'));
+
+        $instance = new Vevent();
+        $instance->setUid('uid-nonexist');
+        $instance->setSequence(1);
+        $cal->addChild($instance);
+
+        $message = ItipMessage::fromCalendar($cal, 'organizer@example.com');
+        $result = $processor->process($message);
+
+        $this->assertTrue($result->hasConflicts());
+        $this->assertInstanceOf(MissingRequiredProperty::class, $result->conflicts[0]);
+    }
+
+    // REFRESH processing
+
+    #[Test]
+    public function refreshProducesRefreshRequested(): void
+    {
+        $processor = $this->createProcessor();
+        $cal = new VCalendar();
+        $cal->setVersion();
+        $cal->setMethod(CalendarMethod::from('REFRESH'));
+
+        $event = new Vevent();
+        $event->setUid('uid-refresh');
+        $event->addAttendee(Attendee::create('attendee@example.com'));
+        $cal->addChild($event);
+
+        $message = ItipMessage::fromCalendar($cal, 'attendee@example.com');
+        $result = $processor->process($message);
+
+        $this->assertTrue($result->isAccepted());
+        $this->assertCount(1, $result->changes);
+        $this->assertInstanceOf(RefreshRequested::class, $result->changes[0]);
+        $this->assertSame('uid-refresh', $result->changes[0]->uid);
+        $this->assertSame('attendee@example.com', $result->changes[0]->attendeeEmail);
+    }
+
+    // COUNTER processing
+
+    #[Test]
+    public function counterWithManualReviewProducesUpdateEvent(): void
+    {
+        $existingEvent = new Vevent();
+        $existingEvent->setUid('uid-counter');
+        $existingEvent->setSequence(1);
+        $existingEvent->setOrganizer(Organizer::create('organizer@example.com'));
+
+        $state = $this->createMock(CalendarState::class);
+        $state->method('findEventByUid')->willReturn($existingEvent);
+        $state->method('findEventInstances')->willReturn([]);
+
+        $processor = $this->createProcessor($state);
+        $cal = new VCalendar();
+        $cal->setVersion();
+        $cal->setMethod(CalendarMethod::from('COUNTER'));
+
+        $event = new Vevent();
+        $event->setUid('uid-counter');
+        $event->setSequence(1);
+        $event->setDtstart(new DateTimeImmutable('2026-06-01 14:00', new DateTimeZone('UTC')));
+        $cal->addChild($event);
+
+        $message = ItipMessage::fromCalendar($cal, 'attendee@example.com');
+        $result = $processor->process($message);
+
+        $this->assertTrue($result->isAccepted());
+        $this->assertCount(1, $result->changes);
+        $this->assertInstanceOf(UpdateEvent::class, $result->changes[0]);
+    }
+
+    #[Test]
+    public function counterDeclinedByPolicy(): void
+    {
+        $existingEvent = new Vevent();
+        $existingEvent->setUid('uid-counter');
+        $existingEvent->setSequence(1);
+        $existingEvent->setOrganizer(Organizer::create('organizer@example.com'));
+
+        $state = $this->createMock(CalendarState::class);
+        $state->method('findEventByUid')->willReturn($existingEvent);
+        $state->method('findEventInstances')->willReturn([]);
+
+        $policy = $this->createMock(SchedulingPolicy::class);
+        $policy->method('shouldAcceptCounter')->willReturn(false);
+        $policy->method('shouldSendNotification')->willReturn(true);
+        $policy->method('shouldAcceptUpdate')->willReturn(true);
+        $policy->method('shouldAutoRespond')->willReturn(null);
+        $policy->method('shouldAcceptPublish')->willReturn(true);
+
+        $processor = $this->createProcessor($state, $policy);
+        $cal = new VCalendar();
+        $cal->setVersion();
+        $cal->setMethod(CalendarMethod::from('COUNTER'));
+
+        $event = new Vevent();
+        $event->setUid('uid-counter');
+        $event->setSequence(1);
+        $cal->addChild($event);
+
+        $message = ItipMessage::fromCalendar($cal, 'attendee@example.com');
+        $result = $processor->process($message);
+
+        $this->assertTrue($result->hasConflicts());
+        $this->assertInstanceOf(CounterDeclined::class, $result->conflicts[0]);
+        $this->assertCount(1, $result->actions);
+        $this->assertInstanceOf(SendDeclineCounter::class, $result->actions[0]);
+    }
+
+    #[Test]
+    public function counterRequiresExistingEvent(): void
+    {
+        $processor = $this->createProcessor();
+        $cal = new VCalendar();
+        $cal->setVersion();
+        $cal->setMethod(CalendarMethod::from('COUNTER'));
+
+        $event = new Vevent();
+        $event->setUid('uid-nonexist');
+        $event->setSequence(1);
+        $cal->addChild($event);
+
+        $message = ItipMessage::fromCalendar($cal, 'attendee@example.com');
+        $result = $processor->process($message);
+
+        $this->assertTrue($result->hasConflicts());
+        $this->assertInstanceOf(MissingRequiredProperty::class, $result->conflicts[0]);
+    }
+
+    // DECLINECOUNTER processing
+
+    #[Test]
+    public function declineCounterProducesConflict(): void
+    {
+        $existingEvent = new Vevent();
+        $existingEvent->setUid('uid-dc');
+        $existingEvent->setSequence(1);
+
+        $state = $this->createMock(CalendarState::class);
+        $state->method('findEventByUid')->willReturn($existingEvent);
+        $state->method('findEventInstances')->willReturn([]);
+
+        $processor = $this->createProcessor($state);
+        $cal = new VCalendar();
+        $cal->setVersion();
+        $cal->setMethod(CalendarMethod::from('DECLINECOUNTER'));
+
+        $event = new Vevent();
+        $event->setUid('uid-dc');
+        $event->setSequence(1);
+        $cal->addChild($event);
+
+        $message = ItipMessage::fromCalendar($cal, 'organizer@example.com');
+        $result = $processor->process($message);
+
+        $this->assertTrue($result->hasConflicts());
+        $this->assertInstanceOf(CounterDeclined::class, $result->conflicts[0]);
+        $this->assertSame('uid-dc', $result->conflicts[0]->uid);
+        $this->assertSame('organizer@example.com', $result->conflicts[0]->attendeeEmail);
+    }
+
+    // Generator tests for new methods
+
+    #[Test]
+    public function generatePublishCreatesValidCalendar(): void
+    {
+        $processor = $this->createProcessor();
+        $event = new Vevent();
+        $event->setUid('uid-gen-pub');
+        $event->setSummary('Published');
+        $event->setDtstart(new DateTimeImmutable('2026-06-01 10:00', new DateTimeZone('UTC')));
+
+        $cal = $processor->generatePublish($event);
+
+        $this->assertSame('PUBLISH', $cal->getMethod()->value);
+        $events = $cal->getEvents();
+        $this->assertCount(1, $events);
+        $this->assertSame('uid-gen-pub', $events[0]->getUid());
+    }
+
+    #[Test]
+    public function generateAddCreatesValidCalendar(): void
+    {
+        $processor = $this->createProcessor();
+        $instance = new Vevent();
+        $instance->setDtstart(new DateTimeImmutable('2026-06-15 10:00', new DateTimeZone('UTC')));
+        $instance->setProperty('RECURRENCE-ID', '20260615T100000Z');
+
+        $cal = $processor->generateAdd([$instance], 'organizer@example.com', 'uid-gen-add', 2);
+
+        $this->assertSame('ADD', $cal->getMethod()->value);
+        $events = $cal->getEvents();
+        $this->assertCount(1, $events);
+        $this->assertSame('uid-gen-add', $events[0]->getUid());
+        $this->assertSame(2, $events[0]->getSequence());
+    }
+
+    #[Test]
+    public function generateRefreshCreatesValidCalendar(): void
+    {
+        $processor = $this->createProcessor();
+        $cal = $processor->generateRefresh('uid-gen-ref', 'attendee@example.com');
+
+        $this->assertSame('REFRESH', $cal->getMethod()->value);
+        $events = $cal->getEvents();
+        $this->assertCount(1, $events);
+        $this->assertSame('uid-gen-ref', $events[0]->getUid());
+    }
+
+    #[Test]
+    public function generateCounterCreatesValidCalendar(): void
+    {
+        $processor = $this->createProcessor();
+        $proposal = new Vevent();
+        $proposal->setUid('uid-gen-ctr');
+        $proposal->setDtstart(new DateTimeImmutable('2026-06-01 14:00', new DateTimeZone('UTC')));
+
+        $cal = $processor->generateCounter($proposal, 'attendee@example.com');
+
+        $this->assertSame('COUNTER', $cal->getMethod()->value);
+        $events = $cal->getEvents();
+        $this->assertCount(1, $events);
+        $this->assertSame('uid-gen-ctr', $events[0]->getUid());
+    }
+
+    #[Test]
+    public function generateDeclineCounterCreatesValidCalendar(): void
+    {
+        $processor = $this->createProcessor();
+        $original = new Vevent();
+        $original->setUid('uid-gen-dc');
+        $original->setDtstart(new DateTimeImmutable('2026-06-01 10:00', new DateTimeZone('UTC')));
+
+        $cal = $processor->generateDeclineCounter($original, 'organizer@example.com');
+
+        $this->assertSame('DECLINECOUNTER', $cal->getMethod()->value);
+        $events = $cal->getEvents();
+        $this->assertCount(1, $events);
+        $this->assertSame('uid-gen-dc', $events[0]->getUid());
     }
 }

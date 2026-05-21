@@ -56,4 +56,19 @@ interface SchedulingPolicy
      * to the result. Return false to suppress the notification.
      */
     public function shouldSendNotification(RequiredAction $action): bool;
+
+    /**
+     * Whether an incoming PUBLISH should be accepted.
+     *
+     * PUBLISH has no scheduling relationship — this controls whether
+     * the published event should be stored at all.
+     */
+    public function shouldAcceptPublish(ItipMessage $message, ?Vevent $existing): bool;
+
+    /**
+     * Whether an incoming COUNTER should be accepted, declined, or left for manual review.
+     *
+     * @return bool|null  true = accept counter-proposal, false = decline, null = manual review
+     */
+    public function shouldAcceptCounter(ItipMessage $message, Vevent $existing): ?bool;
 }
