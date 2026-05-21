@@ -16,6 +16,7 @@ use DateTimeZone;
 use Horde\Icalendar\Calendar\VCalendar;
 use Horde\Icalendar\Calendar\Vevent;
 use Horde\Icalendar\Enum\CalendarMethod;
+use Horde\Icalendar\Value\Organizer;
 
 /**
  * Generates a METHOD=REQUEST VCalendar for sending invitations.
@@ -34,6 +35,7 @@ final class RequestGenerator implements MessageGenerator
         $cal->setMethod(CalendarMethod::from('REQUEST'));
 
         $clone = clone $event;
+        $clone->setOrganizer(Organizer::create($this->organizerEmail));
         $clone->setDtstamp(new DateTimeImmutable('now', new DateTimeZone('UTC')));
         $cal->addChild($clone);
 

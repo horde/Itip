@@ -17,6 +17,7 @@ use Horde\Icalendar\Calendar\VCalendar;
 use Horde\Icalendar\Calendar\Vevent;
 use Horde\Icalendar\Enum\CalendarMethod;
 use Horde\Icalendar\Enum\EventStatus;
+use Horde\Icalendar\Value\Organizer;
 
 /**
  * Generates a METHOD=CANCEL VCalendar for cancelling an event.
@@ -35,6 +36,7 @@ final class CancelGenerator implements MessageGenerator
         $cal->setMethod(CalendarMethod::from('CANCEL'));
 
         $clone = clone $event;
+        $clone->setOrganizer(Organizer::create($this->organizerEmail));
         $clone->setStatus(EventStatus::from('CANCELLED'));
         $clone->setSequence($event->getSequence() + 1);
         $clone->setDtstamp(new DateTimeImmutable('now', new DateTimeZone('UTC')));
