@@ -71,6 +71,20 @@
     no errors, ci.yml added, bootstrap.php corrected
     no errors left
     Development mode for Itip-3.0.0alpha5
+3.0.0-RC1:
+  api: 3.0.0-RC1
+  state:
+    release: RC
+    api: RC
+  date: 2026-05-21
+  license:
+    identifier: LGPL-2.1-only
+    uri: https://spdx.org/licenses/LGPL-2.1-only.html
+  notes: |-
+    feat: Add events and methods missing from MVP
+    docs: Add README.md and UPGRADING.md and copyright / authorship phpdoc
+    feat: Set organizer property in event payloads
+    feat: Reimplement Itip as a PSR-Event state engine
 2.1.2:
   api: 1.1.0
   state:
