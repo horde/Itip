@@ -141,6 +141,41 @@ class Horde_Itip
     }
 
     /**
+     * Send a METHOD=COUNTER proposal to the organizer.
+     *
+     * @param Horde_Itip_Response_Type    $type          Attendee response type.
+     * @param Horde_Itip_Response_Options $options       Response options.
+     * @param Horde_Mail_Transport        $transport     Mail transport.
+     * @param Horde_Date                  $proposedStart Proposed start time.
+     * @param Horde_Date|null             $proposedEnd   Proposed end time.
+     *
+     * @throws Horde_Itip_Exception
+     */
+    public function sendCounterMultiPartResponse(
+        Horde_Itip_Response_Type $type,
+        Horde_Itip_Response_Options $options,
+        Horde_Mail_Transport $transport,
+        Horde_Date $proposedStart,
+        $proposedEnd = null
+    ) {
+        [$headers, $body] = $this->_response->getCounterMultiPartMessage(
+            $type,
+            $options,
+            $proposedStart,
+            $proposedEnd
+        );
+        try {
+            $body->send(
+                $this->_response->getRequest()->getOrganizer(),
+                $headers,
+                $transport
+            );
+        } catch (Horde_Mime_Exception $e) {
+            throw new Horde_Itip_Exception($e);
+        }
+    }
+
+    /**
      * Factory for generating a response object for a vTodo assignment request.
      *
      * @todo   This should be combined with self::factory.
