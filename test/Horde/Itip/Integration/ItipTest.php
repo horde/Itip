@@ -174,6 +174,49 @@ class ItipTest extends TestCase
         $this->assertEquals($reply->getAttribute('METHOD'), 'REPLY');
     }
 
+    public function testCounterIcalendarHasMethodCounterAndProposedTimes()
+    {
+        $response = Horde_Itip::prepareResponse(
+            $this->_getInvitation(),
+            $this->_getResource()
+        );
+        $proposedStart = new \Horde_Date(1222506000);
+        $proposedEnd = new \Horde_Date(1222509600);
+        $counter = $response->getCounterIcalendar(
+            new Horde_Itip_Response_Type_Tentative($this->_getResource()),
+            new Horde_Itip_Response_Options_Kolab(),
+            $proposedStart,
+            $proposedEnd
+        );
+
+        $this->assertSame('COUNTER', $counter->getAttribute('METHOD'));
+        $vevent = $counter->findComponent('vEvent');
+        $dtstart = $vevent->getAttribute('DTSTART');
+        $dtend = $vevent->getAttribute('DTEND');
+        $this->assertInstanceOf(\Horde_Date::class, $dtstart);
+        $this->assertInstanceOf(\Horde_Date::class, $dtend);
+        $this->assertSame('20080927T090000Z', $dtstart->format('Ymd\THis\Z'));
+        $this->assertSame('20080927T100000Z', $dtend->format('Ymd\THis\Z'));
+        $this->assertSame('TENTATIVE', $vevent->getAttribute('ATTENDEE', true)[0]['PARTSTAT']);
+    }
+
+    public function testSendCounterMultiPartResponseUsesCounterMethod()
+    {
+        $_SERVER['SERVER_NAME'] = 'localhost';
+        $this->_getItip()->sendCounterMultiPartResponse(
+            new Horde_Itip_Response_Type_Accept($this->_getResource()),
+            new Horde_Itip_Response_Options_Kolab(),
+            $this->_transport,
+            new \Horde_Date(1222506000),
+            new \Horde_Date(1222509600)
+        );
+
+        $this->assertStringContainsString(
+            'METHOD=COUNTER',
+            $this->_transport->sentMessages[0]['body']
+        );
+    }
+
     public function testMessageResponseHasFromAddress()
     {
         $_SERVER['SERVER_NAME'] = 'localhost';
