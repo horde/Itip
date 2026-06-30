@@ -1,76 +1,14 @@
 ---
-3.0.0alpha5:
-  api: 3.0.0alpha1
-  state:
-    release: alpha
-    api: alpha
-  date: 2022-11-05
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |+
-3.0.0alpha4:
-  api: 3.0.0alpha1
-  state:
-    release: alpha
-    api: alpha
-  date: 2022-11-05
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [rla] Alpha Release for PHP 8.
-    |+
-3.0.0alpha3:
-  api: 3.0.0alpha1
-  state:
-    release: alpha
-    api: alpha
-  date: 2021-03-13
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |+
-3.0.0alpha2:
-  api: 3.0.0alpha1
-  state:
-    release: alpha
-    api: alpha
-  date: 2021-02-24
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |+
-3.0.0alpha1:
-  api: 3.0.0alpha1
+3.0.0:
+  api: 3.0.0
   state:
     release: stable
     api: stable
-  date: 2021-02-24
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: ~
-3.0.0-beta1:
-  api: 3.0.0-beta1
-  state:
-    release: beta
-    api: beta
-  date: 2026-03-16
+  date: 2026-06-30
   license:
     identifier: LGPL-2.1-only
     uri: https://spdx.org/licenses/LGPL-2.1-only.html
-  notes: |-
-    test(phpunit): PHPUnit 11-13 compatibility & Remove horde/test
-    chore: Add entries to .gitignore
-    style: Apply php-cs-fixer rules
-    Development mode for Itip-3.0.0alpha5
-    Released Itip-3.0.0alpha4
-    Update metadata and workflows for PHP 8 support
-    Add CI job for satis repo update
-    no errors, ci.yml added, bootstrap.php corrected
-    no errors left
-    Development mode for Itip-3.0.0alpha5
+  notes: "refactor(test): import Horde_Date instead of fully-qualified references\nchore: update CI\nci: install horde-components CI pipeline\nMerge pull request #3 from horde/feat/mime-envelope-builder\nfeat(itip): add MimeEnvelopeBuilder for invitation mail\nfeat(itip): add RFC5546 COUNTER and DECLINECOUNTER response support\nchore: Update workflow dependency"
 3.0.0-RC1:
   api: 3.0.0-RC1
   state:
@@ -80,11 +18,67 @@
   license:
     identifier: LGPL-2.1-only
     uri: https://spdx.org/licenses/LGPL-2.1-only.html
-  notes: |-
-    feat: Add events and methods missing from MVP
-    docs: Add README.md and UPGRADING.md and copyright / authorship phpdoc
-    feat: Set organizer property in event payloads
-    feat: Reimplement Itip as a PSR-Event state engine
+  notes: "feat: Add events and methods missing from MVP\ndocs: Add README.md and UPGRADING.md and copyright / authorship phpdoc\nfeat: Set organizer property in event payloads\nfeat: Reimplement Itip as a PSR-Event state engine"
+3.0.0-beta1:
+  api: 3.0.0-beta1
+  state:
+    release: beta
+    api: beta
+  date: 2026-03-16
+  license:
+    identifier: LGPL-2.1-only
+    uri: https://spdx.org/licenses/LGPL-2.1-only.html
+  notes: "test(phpunit): PHPUnit 11-13 compatibility & Remove horde/test\nchore: Add entries to .gitignore\nstyle: Apply php-cs-fixer rules\nDevelopment mode for Itip-3.0.0alpha5\nReleased Itip-3.0.0alpha4\nUpdate metadata and workflows for PHP 8 support\nAdd CI job for satis repo update\nno errors, ci.yml added, bootstrap.php corrected\nno errors left\nDevelopment mode for Itip-3.0.0alpha5"
+3.0.0alpha5:
+  api: 3.0.0alpha1
+  state:
+    release: alpha
+    api: alpha
+  date: 2022-11-05
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: ''
+3.0.0alpha4:
+  api: 3.0.0alpha1
+  state:
+    release: alpha
+    api: alpha
+  date: 2022-11-05
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: "[rla] Alpha Release for PHP 8.\n|+\n"
+3.0.0alpha3:
+  api: 3.0.0alpha1
+  state:
+    release: alpha
+    api: alpha
+  date: 2021-03-13
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: ''
+3.0.0alpha2:
+  api: 3.0.0alpha1
+  state:
+    release: alpha
+    api: alpha
+  date: 2021-02-24
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: ''
+3.0.0alpha1:
+  api: 3.0.0alpha1
+  state:
+    release: stable
+    api: stable
+  date: 2021-02-24
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: null
 2.1.2:
   api: 1.1.0
   state:
@@ -94,8 +88,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Update Greek translation (Limperis Antonis <limperis@cti.gr>).
+  notes: "[jan] Update Greek translation (Limperis Antonis <limperis@cti.gr>).\n"
 2.1.1:
   api: 1.1.0
   state:
@@ -105,8 +98,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Mark PHP 7 as supported.
+  notes: "[jan] Mark PHP 7 as supported.\n"
 2.1.0:
   api: 1.1.0
   state:
@@ -116,8 +108,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [mjr] Add support for iTip responses to vTodo requests.
+  notes: "[mjr] Add support for iTip responses to vTodo requests.\n"
 2.0.7:
   api: 1.0.0
   state:
@@ -127,9 +118,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Support loading translations from Composer-installed package.
-    [jan] Improve PSR-2 compatibility.
+  notes: "[jan] Support loading translations from Composer-installed package.\n[jan] Improve PSR-2 compatibility.\n"
 2.0.6:
   api: 1.0.0
   state:
@@ -139,9 +128,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Update Hungarian translation (Andras Galos <galosa@netinform.hu>).
-    [jan] Update Danish translation (Erling Preben Hansen <erling@eph.dk>).
+  notes: "[jan] Update Hungarian translation (Andras Galos <galosa@netinform.hu>).\n[jan] Update Danish translation (Erling Preben Hansen <erling@eph.dk>).\n"
 2.0.5:
   api: 1.0.0
   state:
@@ -151,9 +138,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Update Ukrainian translation (Andriy Kopystyansky <anri@polynet.lviv.ua>).
-    [jan] Update Basque translation (Ibon Igartua <ibon.igartua@ehu.es>).
+  notes: "[jan] Update Ukrainian translation (Andriy Kopystyansky <anri@polynet.lviv.ua>).\n[jan] Update Basque translation (Ibon Igartua <ibon.igartua@ehu.es>).\n"
 2.0.4:
   api: 1.0.0
   state:
@@ -163,8 +148,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Don't depend on an IMP identity object.
+  notes: "[jan] Don't depend on an IMP identity object.\n"
 2.0.3:
   api: 1.0.0
   state:
@@ -174,8 +158,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Update French translation (Paul De Vlieger <paul.de_vlieger@moniut.univ-bpclermont.fr>).
+  notes: "[jan] Update French translation (Paul De Vlieger <paul.de_vlieger@moniut.univ-bpclermont.fr>).\n"
 2.0.2:
   api: 1.0.0
   state:
@@ -185,8 +168,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Update Basque translation (Ibon Igartua <ibon.igartua@ehu.es>).
+  notes: "[jan] Update Basque translation (Ibon Igartua <ibon.igartua@ehu.es>).\n"
 2.0.1:
   api: 1.0.0
   state:
@@ -196,30 +178,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Update Dutch translation (Arjen de Korte <build+horde@de-korte.org>).
-2.0.0beta1:
-  api: 1.0.0
-  state:
-    release: beta
-    api: stable
-  date: 2012-07-19
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    First beta release for Horde 5.
-2.0.0alpha1:
-  api: 1.0.0
-  state:
-    release: alpha
-    api: stable
-  date: 2012-07-05
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    First alpha release for Horde 5.
+  notes: "[jan] Update Dutch translation (Arjen de Korte <build+horde@de-korte.org>).\n"
 2.0.0:
   api: 1.0.0
   state:
@@ -229,8 +188,27 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    First stable release for Horde 5.
+  notes: "First stable release for Horde 5.\n"
+2.0.0beta1:
+  api: 1.0.0
+  state:
+    release: beta
+    api: stable
+  date: 2012-07-19
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: "First beta release for Horde 5.\n"
+2.0.0alpha1:
+  api: 1.0.0
+  state:
+    release: alpha
+    api: stable
+  date: 2012-07-05
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: "First alpha release for Horde 5.\n"
 1.0.7:
   api: 1.0.0
   state:
@@ -240,8 +218,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Fix line breaks of iTip responses when using quoted-printable encoding (Bug #10888).
+  notes: "[jan] Fix line breaks of iTip responses when using quoted-printable encoding (Bug #10888).\n"
 1.0.6:
   api: 1.0.0
   state:
@@ -251,8 +228,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Add Estonian translation.
+  notes: "[jan] Add Estonian translation.\n"
 1.0.5:
   api: 1.0.0
   state:
@@ -262,9 +238,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Update Croatian translation.
-    [jan] Make unit tests locale independent.
+  notes: "[jan] Update Croatian translation.\n[jan] Make unit tests locale independent.\n"
 1.0.4:
   api: 1.0.0
   state:
@@ -274,8 +248,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Update Latvian translation.
+  notes: "[jan] Update Latvian translation.\n"
 1.0.3:
   api: 1.0.0
   state:
@@ -285,9 +258,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Update Lithuanian translation.
-    [jan] Update Brazilian Portuguese translation.
+  notes: "[jan] Update Lithuanian translation.\n[jan] Update Brazilian Portuguese translation.\n"
 1.0.2:
   api: 1.0.0
   state:
@@ -297,8 +268,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Updated Slovak translation.
+  notes: "[jan] Updated Slovak translation.\n"
 1.0.1:
   api: 1.0.0
   state:
@@ -308,31 +278,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Updated Spanish translation.
-1.0.0RC2:
-  api: 1.0.0
-  state:
-    release: beta
-    api: beta
-  date: 2011-03-29
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    Second release candidate for Horde 4.
-1.0.0RC1:
-  api: 1.0.0
-  state:
-    release: beta
-    api: beta
-  date: 2011-03-22
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    First release candidate for Horde 4.
-    [gwr] Extracted package from Kolab_Resource.
+  notes: "[jan] Updated Spanish translation.\n"
 1.0.0:
   api: 1.0.0
   state:
@@ -342,5 +288,24 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    First stable release for Horde 4.
+  notes: "First stable release for Horde 4.\n"
+1.0.0RC2:
+  api: 1.0.0
+  state:
+    release: beta
+    api: beta
+  date: 2011-03-29
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: "Second release candidate for Horde 4.\n"
+1.0.0RC1:
+  api: 1.0.0
+  state:
+    release: beta
+    api: beta
+  date: 2011-03-22
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: "First release candidate for Horde 4.\n[gwr] Extracted package from Kolab_Resource.\n"
