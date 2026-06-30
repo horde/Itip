@@ -29,6 +29,7 @@ use Horde_Itip_Response_Type_Decline;
 use Horde_Itip_Response_Type_Tentative;
 use Horde_Mime_Part;
 use Horde_Itip_Response_Options_Horde;
+use Horde_Date;
 
 /**
  * Test the itip response handling.
@@ -180,8 +181,8 @@ class ItipTest extends TestCase
             $this->_getInvitation(),
             $this->_getResource()
         );
-        $proposedStart = new \Horde_Date(1222506000);
-        $proposedEnd = new \Horde_Date(1222509600);
+        $proposedStart = new Horde_Date(1222506000);
+        $proposedEnd = new Horde_Date(1222509600);
         $counter = $response->getCounterIcalendar(
             new Horde_Itip_Response_Type_Tentative($this->_getResource()),
             new Horde_Itip_Response_Options_Kolab(),
@@ -193,8 +194,8 @@ class ItipTest extends TestCase
         $vevent = $counter->findComponent('vEvent');
         $dtstart = $vevent->getAttribute('DTSTART');
         $dtend = $vevent->getAttribute('DTEND');
-        $this->assertInstanceOf(\Horde_Date::class, $dtstart);
-        $this->assertInstanceOf(\Horde_Date::class, $dtend);
+        $this->assertInstanceOf(Horde_Date::class, $dtstart);
+        $this->assertInstanceOf(Horde_Date::class, $dtend);
         $this->assertSame('20080927T090000Z', $dtstart->format('Ymd\THis\Z'));
         $this->assertSame('20080927T100000Z', $dtend->format('Ymd\THis\Z'));
         $this->assertSame('TENTATIVE', $vevent->getAttribute('ATTENDEE', true)[0]['PARTSTAT']);
@@ -207,8 +208,8 @@ class ItipTest extends TestCase
             new Horde_Itip_Response_Type_Accept($this->_getResource()),
             new Horde_Itip_Response_Options_Kolab(),
             $this->_transport,
-            new \Horde_Date(1222506000),
-            new \Horde_Date(1222509600)
+            new Horde_Date(1222506000),
+            new Horde_Date(1222509600)
         );
 
         $this->assertStringContainsString(
