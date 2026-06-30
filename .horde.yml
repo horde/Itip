@@ -89,3 +89,5 @@ ci-platform:
     - ext-pcre
     - ext-simplexml
     - ext-spl
+ci-platform-flags:
+  needs_installer_plugin: false
